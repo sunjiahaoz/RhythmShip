@@ -22,7 +22,7 @@ namespace sunjiahaoz
             Tweener tw = transform.DOPath(_path, _fDur, _pathType, _pathMode, _resolution, Color.blue).
                 SetLoops(_nLoopCount, _loopType)
                 .SetEase(_ease);
-            if (_actionWayPointChange == null)
+            if (_actionWayPointChange != null)
             {
                 tw.OnWaypointChange(_actionWayPointChange);
             }

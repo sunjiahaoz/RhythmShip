@@ -88,6 +88,7 @@ public class EnemyShip_Rail : BaseRhythmEnemyShip
     // 退出舞台
     void DisappearTail()
     {
+        Debug.Log("<color=green>["+"!@#!@#!@#!@#!@#"+"]</color>");
         DOVirtual.Float(_trailRenderer.spline.Length(), 0, _fDiappearDur, (val) =>
         {
             if (val > _trailRenderer.maxLength)
