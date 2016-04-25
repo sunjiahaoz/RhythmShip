@@ -603,6 +603,32 @@ namespace sunjiahaoz
             GameObject go = new GameObject(strName);
             return go;
         }
+
+        /// <summary>
+        /// 获取某个节点的子节点
+        /// 因为GetComponentsInChildren会将自己本身也获得，所以用这个方法来提供规避
+        /// </summary>
+        /// <param name="trRoot"></param>
+        /// <param name="bIncludeRoot">是否包含自身</param>
+        /// <param name="bIncludInactive">是否递归</param>
+        /// <returns></returns>
+        public static List<T> GetComponentsInChildren<T>(T trRoot, bool bIncludeRoot = false, bool bIncludInactive = false) where T : Component
+        {
+            List<T> lst = new List<T>();
+#if UNITY_IOS
+            for (int i = 0; i < trRoot.transform.childCount; ++i)
+            {
+                lst.Add(trRoot.transform.GetChild(i).GetComponent<T>());
+            }
+#else
+            lst.AddRange(trRoot.GetComponentsInChildren<T>(bIncludInactive));
+#endif
+            if (!bIncludeRoot)
+            {
+                lst.Remove(trRoot);
+            }
+            return lst;
+        }
         #endregion
 
         #region _枚举_
@@ -854,7 +880,7 @@ namespace sunjiahaoz
         }
 
         // 测试输出一个list
-        public static void DebugOutList<T>(List<T> lst)
+        public static void DebugOutList<T>(IList<T> lst)
         {
             for (int i = 0; i < lst.Count; ++i )
             {

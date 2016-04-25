@@ -8,6 +8,7 @@ public enum AnimIndex
     DestroyEffect,
     FireShootEffect,
     AppearEffect,
+    Stage1,
 }
 [System.Serializable]
 public class AnimData
@@ -60,6 +61,7 @@ public class ShotEffect
         _dictData.Add(AnimIndex.DestroyEffect, new AnimData(AnimIndex.DestroyEffect, "Anim", "EffectExplosion"));
         _dictData.Add(AnimIndex.FireShootEffect, new AnimData(AnimIndex.FireShootEffect, "Anim", "EffectShoot"));
         _dictData.Add(AnimIndex.AppearEffect, new AnimData(AnimIndex.AppearEffect, "Anim", "EffectAppear"));
+        _dictData.Add(AnimIndex.Stage1, new AnimData(AnimIndex.Stage1, "Anim", "Stage1"));
     }
 
     public void ShotDestroy(EffectParam param, System.Action actionCompete = null)

@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using sunjiahaoz;
 
-public class BaseEnemyShip : BaseShip{
-    public List<EventDelegate> _lstOnShipCreateEvent;
+public class BaseEnemyShip : BaseShip{    
     [Header("碰撞其他东西的时候")]
     public LayerMask _colliderLayer;
     public bool _bAutoGetColliderTriggers = true;
@@ -32,11 +31,9 @@ public class BaseEnemyShip : BaseShip{
         }
     }
 
-    public virtual void OnShipCreate(EnemyCreator creator)
-    {        
-        base.OnShipCreate();
-        // 其他 todo
-        EventDelegate.Execute(_lstOnShipCreateEvent);
+    public virtual void OnThingCreate(EnemyCreator creator)
+    {
+        OnThingCreate();
     }
 
     void OnShipTriggerEnter(GameObject go)

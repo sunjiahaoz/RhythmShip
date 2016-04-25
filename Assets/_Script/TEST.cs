@@ -6,11 +6,12 @@ using sunjiahaoz.SteerTrack;
 using RUL;
 
 public class TEST : MonoBehaviour {
-    public EnemyShip_Rail _rail;
+    public BaseEnemyShip _ship;
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.Home))
         {
+            _ship.OnThingCreate(null);
             //_rail.RunTail();
             //_line.CalCollider(_trPt1.position, _trPt2.position);
         }
