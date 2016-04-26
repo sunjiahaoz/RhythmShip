@@ -24,5 +24,14 @@ public class DeathAreaAI : MonoBehaviour {
     void ProcessCollision(GameObject go)
     {
         ObjectPoolController.Destroy(go.transform.root.gameObject);
+        //BaseFireThing thing = go.GetComponent<BaseFireThing>();
+        //if (thing != null)
+        //{
+        //    thing.OnThingDestroy();
+        //}
+        //else
+        //{
+        //    ObjectPoolController.Destroy(go.transform.root.gameObject);
+        //}        
     }
 }

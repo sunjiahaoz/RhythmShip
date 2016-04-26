@@ -14,22 +14,17 @@ public class BaseRhythmEnemyShip : BaseEnemyShip {
         base.Awake();
     }
 
-    //void Start()
-    //{
-    //    // TEST CODE
-    //    OnShipCreate();
-    //}
-
-    public override void OnThingCreate()
+    void OnEnable()
     {
-        base.OnThingCreate();
         GamingData.Instance.sceneConfig._event._eventOnRhythmNormal += OnTriggerRhythmNormal;
     }
 
-    public override void OnThingDestroy()
+    void OnDisable()
     {
-        base.OnThingDestroy();
-        GamingData.Instance.sceneConfig._event._eventOnRhythmNormal -= OnTriggerRhythmNormal;
+        if (GamingData.Instance.sceneConfig != null)
+        {
+            GamingData.Instance.sceneConfig._event._eventOnRhythmNormal -= OnTriggerRhythmNormal;
+        }        
     }
     
     protected virtual void OnTriggerRhythmNormal()

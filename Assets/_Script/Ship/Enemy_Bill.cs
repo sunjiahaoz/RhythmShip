@@ -9,11 +9,14 @@ using UnityEngine;
 using System.Collections;
 using sunjiahaoz;
 using sunjiahaoz.SteerTrack;
+using DG.Tweening;
 
 public class Enemy_Bill : BaseRhythmEnemyShip {
     public tk2dSpriteAnimator _anim;
-    SteeringDirLine _dirLine;
+    SteeringDirLine _dirLine;    
     FirePointBill _fpb = null;
+
+    Vector2 _srcDir = Vector2.zero;
     protected override void Awake()
     {
         base.Awake();
@@ -23,19 +26,24 @@ public class Enemy_Bill : BaseRhythmEnemyShip {
 
     public override void OnThingCreate()
     {
-        base.OnThingCreate();
+        base.OnThingCreate();        
+        StopCoroutine("OnDead");
         SetBillShootType(BillBulletType.Star);
+        _nCurState = 0;
+        _fCurIntervalTime = 0;
+        PlayMove();
     }
 
     public float _fMoveTimeDur = 2f;
     public float _fShootTimeDur = 1f;
+    public float _fDeadJumpDistance = 100f;
 
     float _fCurIntervalTime = 0;
-    int _nCurState = 0; // 0 move, 1 shoot
+    int _nCurState = 0; // 0 move, 1 shoot, 2 dead    
 
     void Update()
     {
-        _fCurIntervalTime += Time.deltaTime;
+        _fCurIntervalTime += Time.deltaTime;        
     }
 
     protected override void OnTriggerRhythmNormal()
@@ -64,7 +72,7 @@ public class Enemy_Bill : BaseRhythmEnemyShip {
     // 移动
     void PlayMove()
     {
-        _dirLine.enabled = true;
+        _dirLine.Agent.enabled = true;
         // PlayMoveAnim todo
         TagLog.Log(LogIndex.Enemy, "Play Move Anim");
         _anim.Play("BillMove");
@@ -72,11 +80,33 @@ public class Enemy_Bill : BaseRhythmEnemyShip {
     // 射击
     void PlayShoot()
     {
-        _dirLine.enabled = false;
+        _dirLine.Agent.enabled = false;
         // Play Shoot Anim todo
         TagLog.Log(LogIndex.Enemy, "Play Shoooooot Anim");
         _anim.Play("BillShoot");
         _fpb.Fire();
+    }
+
+    public override void OnThingDestroy()
+    {   
+        if (_nCurState == 2)
+        {
+            return;
+        }
+        StartCoroutine("OnDead");        
+    }
+
+    IEnumerator OnDead()
+    {
+        _dirLine.Agent.enabled = false;
+        _nCurState = 2;
+        yield return 0;
+        //_anim.transform.localScale = Vector3.one * 3.5f;   // 死亡资源太小了
+        _anim.Play("BillDead");
+        transform.DOMove(transform.position - new Vector3(_fDeadJumpDistance, 0, 0), 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        //_anim.transform.localScale = Vector3.one;
+        base.OnThingDestroy();
     }
 
     public void SetBillShootType(BillBulletType nType)

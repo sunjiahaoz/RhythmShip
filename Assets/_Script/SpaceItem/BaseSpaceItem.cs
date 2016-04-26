@@ -96,11 +96,11 @@ public class BaseSpaceItem : BaseFireThing {
 #endregion
 
     // 道具被使用时使用
-    protected virtual void OnItemUsed()
+    protected virtual void OnItemUsed(GameObject goUse)
     {
         if (_itemUsedEffect._strName.Length > 0)
         {
-            _itemUsedEffect._pos = transform.position;
+            _itemUsedEffect._pos = goUse.transform.position;
             ShotEffect.Instance.Shot(_itemUsedEffect);
         }
         // 默认使用一次之后就销毁
