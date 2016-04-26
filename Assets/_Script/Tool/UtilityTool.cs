@@ -139,4 +139,30 @@ public class UtilityTool
         }
         return pathPos;
     }
+
+    /// <summary>
+    /// 阿基米德螺旋线
+    /// </summary>
+    /// <param name="posStart">圆心位置</param>
+    /// <param name="fScale">值越小，点位置越集中，越大越扩散</param>
+    /// <param name="fCircleCount">转几个圈</param>
+    /// <param name="nPosCount">获得几个点</param>
+    /// <returns></returns>
+    public static Vector3[] AJiMiDeCiclePath(Vector3 posStart, float fScale, float fCircleCount, int nPosCount)
+    {
+        Vector3[] pos = new Vector3[nPosCount];
+        float pi = Mathf.PI;
+        float a = fScale;
+        float fzta = 0;
+        float fStep = (fCircleCount * pi) / nPosCount;
+        int nIndex = 0;
+        for (nIndex = 0, fzta = 0; fzta <= fCircleCount * pi; fzta += fStep, nIndex++)
+        {
+            float r = a * fzta;
+            float x = posStart.x + r * Mathf.Cos(fzta);
+            float y = posStart.y - r * Mathf.Sin(fzta);
+            pos[nIndex] = new Vector3(x, y, posStart.z);
+        }
+        return pos;
+    }
 }

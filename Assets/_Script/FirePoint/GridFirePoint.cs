@@ -25,8 +25,8 @@ public class GridFirePoint : FirePointRhythm
         //    return tr1.name.CompareTo(tr2.name);
         //});
 
-        TagLog.Log(LogIndex.FirePoint, "GridFirePoint posLength:" + _lstPos.Count);
-        ToolsUseful.DebugOutList<Transform>(_lstPos);
+        //TagLog.Log(LogIndex.FirePoint, "GridFirePoint posLength:" + _lstPos.Count);
+        //ToolsUseful.DebugOutList<Transform>(_lstPos);
         if (_lstPos.Count == 0)
         {
             TagLog.LogError(LogIndex.FirePoint, "GridFirePoint 需要子节点");
