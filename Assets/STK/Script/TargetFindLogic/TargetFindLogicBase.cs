@@ -24,11 +24,6 @@ namespace sunjiahaoz
 
     public class TargetFindLogicBase : ITargetFindLogic<GameObject>
     {        
-        public virtual void SetLimit(Hashtable tableParam)
-        { 
-
-        }
-
         public virtual GameObject[] Find(TargetFindLogicParams data = null)
         {
             return null;
