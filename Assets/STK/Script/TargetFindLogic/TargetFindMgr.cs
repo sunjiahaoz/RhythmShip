@@ -8,6 +8,7 @@ namespace sunjiahaoz
     {
         // 通用
         None,
+        Sphere,
         // todo
 
         // 游戏本身相关
@@ -34,20 +35,38 @@ namespace sunjiahaoz
             Init();
         }
         #endregion
-        Dictionary<FindLogicType, TargetFindLogicBase<GameObject>> _dictLogic = new Dictionary<FindLogicType, TargetFindLogicBase<GameObject>>();
+        Dictionary<FindLogicType, TargetFindLogicBase> _dictLogic = new Dictionary<FindLogicType, TargetFindLogicBase>();
+        Dictionary<FindLogicType, TargetFindLogicParams> _dictParam = new Dictionary<FindLogicType, TargetFindLogicParams>();
 
         void Init()
         {
             _dictLogic.Clear();
+            //_dictParam.Clear();
+
             _dictLogic.Add(FindLogicType.None, new TargetFindLogic_None());
+            _dictParam.Add(FindLogicType.None, null);
+
             _dictLogic.Add(FindLogicType.PlayerShip, new TargetFind_PlayerShip());
+            _dictParam.Add(FindLogicType.PlayerShip, null);
+
+            _dictLogic.Add(FindLogicType.Sphere, new TargetFindLogic_Sphere());
+            _dictParam.Add(FindLogicType.Sphere, new TargetFindLogicPrams_Sphere());
         }
 
-        public TargetFindLogicBase<GameObject> GetFindLogic(FindLogicType eType)
+        public TargetFindLogicBase GetFindLogic(FindLogicType eType)
         {
             if (_dictLogic.ContainsKey(eType))
             {
                 return _dictLogic[eType];
+            }
+            return null;
+        }
+
+        public TargetFindLogicParams GetParamInstance(FindLogicType eType)
+        {
+            if (_dictParam.ContainsKey(eType))
+            {
+                return _dictParam[eType];
             }
             return null;
         }

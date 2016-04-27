@@ -309,6 +309,24 @@ namespace sunjiahaoz
         {   
             return BitValue(lmContainer, goCheck.layer);
         }
+
+        /// <summary>
+        /// 设置Layer，包括对象的所有子对象
+        /// </summary>
+        /// <param name="go"></param>
+        /// <param name="strLayerName"></param>
+        public static void ChangeGoLayer(GameObject go, string strLayerName, bool bIncludeChildren = true)
+        {
+            int nIndexLayer = GetLayerIndex(strLayerName);
+            go.layer = nIndexLayer;
+            if (bIncludeChildren)
+            {
+                ProcessChildren(go.transform, (tr) =>
+                {
+                    tr.gameObject.layer = nIndexLayer;
+                }, true);
+            }            
+        }
         #endregion
 
         #region _坐标or位置_
@@ -610,7 +628,7 @@ namespace sunjiahaoz
         /// </summary>
         /// <param name="trRoot"></param>
         /// <param name="bIncludeRoot">是否包含自身</param>
-        /// <param name="bIncludInactive">是否递归</param>
+        /// <param name="bIncludInactive">是否包含inactive的</param>
         /// <returns></returns>
         public static List<T> GetComponentsInChildren<T>(T trRoot, bool bIncludeRoot = false, bool bIncludInactive = false) where T : Component
         {
@@ -882,6 +900,10 @@ namespace sunjiahaoz
         // 测试输出一个list
         public static void DebugOutList<T>(IList<T> lst)
         {
+            if (lst == null)
+            {
+                return;
+            }
             for (int i = 0; i < lst.Count; ++i )
             {
                 Debug.Log(i + ":" + lst[i].ToString());
@@ -958,5 +980,9 @@ namespace sunjiahaoz
             return nContain | nAdd;
         }
         #endregion
+
+#region _常量_
+        public const int MaxIntCanUse = 2147483646;  // int.MaxValue == 2147483647 但实际用的时候会当-1用，所以这里使用它的前一个值
+#endregion
     }
 }

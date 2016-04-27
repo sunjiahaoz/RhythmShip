@@ -4,27 +4,40 @@ using System.Collections.Generic;
 
 namespace sunjiahaoz
 {
-    public interface ITargetFindLogic<T>
+    // 具体查找逻辑需要的数据
+    public class TargetFindLogicParams
     {
-        T[] Find();
+        public int _nLayerMask = Physics.AllLayers; // 查找Layer
+        public int _nLimitMaxCount = ToolsUseful.MaxIntCanUse; // 限制最大数量
+
+        public virtual void Clear()
+        {
+            _nLayerMask = Physics.AllLayers;
+            _nLimitMaxCount = ToolsUseful.MaxIntCanUse;
+        }
     }
 
-    public class TargetFindLogicBase<GameObject> : ITargetFindLogic<GameObject>
+    public interface ITargetFindLogic<T>
+    {
+        T[] Find(TargetFindLogicParams data = null);
+    }
+
+    public class TargetFindLogicBase : ITargetFindLogic<GameObject>
     {        
         public virtual void SetLimit(Hashtable tableParam)
         { 
 
         }
 
-        public virtual GameObject[] Find()
+        public virtual GameObject[] Find(TargetFindLogicParams data = null)
         {
             return null;
         }
     }
 
-    public class TargetFindLogic_None : TargetFindLogicBase<GameObject>
+    public class TargetFindLogic_None : TargetFindLogicBase
     {
-        public override GameObject[] Find()
+        public override GameObject[] Find(TargetFindLogicParams data = null)
         {
             return null;
         }
