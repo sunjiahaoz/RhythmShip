@@ -10,12 +10,12 @@ public class DefaultRhythmAction : MonoBehaviour {
     // 每收到几次节奏执行一次
     public int _nIntervalCount = 1;
 	// Use this for initialization
-	void Start () 
+	void OnEnable () 
     {
         GamingData.Instance.sceneConfig._event._eventOnRhythmNormal += _event__eventOnRhythmNormal;
 	}	
 
-    void OnDestroy()
+    void OnDisable()
     {
         if (GamingData.Instance.sceneConfig != null)
         {
