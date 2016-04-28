@@ -34,7 +34,7 @@ public class EnemyShip_AnimBody : BaseEnemyShip
         _animTor.AnimationCompleted -= OnAnimComplete;
     }
 
-    public override void OnThingCreate(EnemyCreator creator)
+    public override void OnThingCreate(IFirePoint creator)
     {
         base.OnThingCreate(creator);        
         _animTor.Play();

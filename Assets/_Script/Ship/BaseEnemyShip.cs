@@ -31,9 +31,9 @@ public class BaseEnemyShip : BaseShip{
         }
     }
 
-    public virtual void OnThingCreate(EnemyCreator creator)
+    public override void OnThingCreate(IFirePoint fp)
     {
-        OnThingCreate();
+        base.OnThingCreate(fp);
     }
 
     void OnShipTriggerEnter(GameObject go)

@@ -21,9 +21,9 @@ public class SpaceItem_BillBullet : BaseSpaceItem {
         //OnThingCreate();        
     }
 
-    public override void OnThingCreate()
+    public override void OnThingCreate(IFirePoint fp)
     {
-        base.OnThingCreate();
+        base.OnThingCreate(fp);
         _ship = null;
         _curType = (BillBulletType)Random.Range(1, 4);
         SetBodyByType(_curType);

@@ -13,15 +13,15 @@ public class PlayerShip : BaseShip {
 #region _Mono_
     void Start()
     {        
-        OnThingCreate();
+        OnThingCreate(null);
     }    
 #endregion
 
 #region _BaseShip_
     // 初始化ship
-    public override void OnThingCreate()
+    public override void OnThingCreate(IFirePoint fp)
     {
-        base.OnThingCreate();
+        base.OnThingCreate(fp);
 
         _skill.EquipSkillMotor(_nEquipedSkill);
         _shooter.EquipFirePoint(_nEquipedFirePoint);

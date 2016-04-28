@@ -1,7 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using sunjiahaoz;
-public class BaseBullet : BaseFireThing{    
+public class BaseBullet : BaseFireThing{
+
+    public List<EventDelegate> _lstThingCreate;
+    public List<EventDelegate> _lstThingDestroy;
+
     public ColliderTrigger _trigger;    
     public EffectParam _effectDestroy;
     public int _nHurtValue = 1;
@@ -16,39 +21,27 @@ public class BaseBullet : BaseFireThing{
     
 
 #region _BaseFireThing_
-
-    public override void OnThingCreate()
-    {
-        base.OnThingCreate();
-        OnBulletCreate(null);
-    }
-    public virtual void OnThingCreate(BaseFirePoint fp)
-    {
-        OnBulletCreate(fp);
-    }
-
-    public override void OnThingDestroy()
-    {
-        base.OnThingDestroy();
-        OnBulletDestoy();
-    }
-#endregion
-
-    // 作为Bullet的初始化函数
-    // 在创建Bullet的时候进行调用
-    public virtual void OnBulletCreate(BaseFirePoint fp)
+    public override void OnThingCreate(IFirePoint fp)
     {
         TagLog.Log(LogIndex.Bullet, "OnBulletCreate");
+        base.OnThingCreate(fp);
+        // 其他
+        EventDelegate.Execute(_lstThingCreate);        
     }
+
     // Bullet需要销毁时的处理
     // 在Bullet需要销毁时进行调用    
     // 注意是需要销毁时的处理，不是销毁后的处理。一般是在Bullet碰撞了什么需要显示销毁特效时调用
-    public virtual void OnBulletDestoy()
+    public override void OnThingDestroy()
     {
+        base.OnThingDestroy();
         TagLog.Log(LogIndex.Bullet, "OnBulletDestoy");
         PlayBulletDestroyEffect();
         ObjectPoolController.Destroy(gameObject);
+        // 其他
+        EventDelegate.Execute(_lstThingDestroy);
     }
+#endregion    
 
     protected virtual void PlayBulletDestroyEffect()
     {
@@ -67,7 +60,7 @@ public class BaseBullet : BaseFireThing{
         if (LifeCom != null)
         {
             LifeCom.AddValue(-_nHurtValue);
-            OnBulletDestoy();
+            OnThingDestroy();
         }
     }
 }

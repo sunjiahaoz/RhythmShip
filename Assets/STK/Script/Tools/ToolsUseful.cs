@@ -331,6 +331,16 @@ namespace sunjiahaoz
 
         #region _坐标or位置_
         /// <summary>
+        /// 返回朝向的单位向量
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        public static Vector3 LookDir(Vector3 from, Vector3 to)
+        {
+            return (to - from).normalized;
+        }
+        /// <summary>
         /// 详见一个它的重载函数。
         /// 只不过Rect的描述变成了一个左上角坐标以及宽高。
         /// </summary>

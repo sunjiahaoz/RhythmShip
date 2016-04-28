@@ -24,9 +24,9 @@ public class Enemy_Bill : BaseRhythmEnemyShip {
         _fpb = _firepoint as FirePointBill;        
     }
 
-    public override void OnThingCreate()
+    public override void OnThingCreate(IFirePoint fp)
     {
-        base.OnThingCreate();        
+        base.OnThingCreate(fp);        
         StopCoroutine("OnDead");
         SetBillShootType(BillBulletType.Star);
         _nCurState = 0;

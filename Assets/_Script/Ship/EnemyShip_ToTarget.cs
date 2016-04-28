@@ -31,7 +31,7 @@ public class EnemyShip_ToTarget : BaseEnemyShip {
         }
     }
 
-    public override void OnThingCreate(EnemyCreator creator)
+    public override void OnThingCreate(IFirePoint creator)
     {
         base.OnThingCreate(creator);
         InitTarget();

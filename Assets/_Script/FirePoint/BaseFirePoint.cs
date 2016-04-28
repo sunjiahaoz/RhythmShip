@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public enum FireThingType
 {
@@ -8,18 +9,20 @@ public enum FireThingType
     SpaceItem,
 }
 
-public interface IFirePoint
+public class IFirePoint : MonoBehaviour
 {
-    void Fire();
+    public virtual void Fire() { }
+    public virtual Vector3 GetDir() { return Vector3.zero; }
 }
 
 public class BaseFireThing : MonoBehaviour
-{
-    public virtual void OnThingCreate() { }
+{    
+    //public virtual void OnThingCreate() { }
+    public virtual void OnThingCreate(IFirePoint pt) { }
     public virtual void OnThingDestroy() { }
 }
 
-public class BaseFirePoint : MonoBehaviour, IFirePoint
+public class BaseFirePoint : IFirePoint
 {
     public BaseFireThing _prefabFireThing;
     [Header("pos自动赋值")]    
@@ -29,7 +32,7 @@ public class BaseFirePoint : MonoBehaviour, IFirePoint
     public Transform _trCreatePos;                      // 创建出的对象的初始位置
 
     #region _IFirePoint_
-    public virtual void Fire()
+    public override void Fire()
     {
         if (_bCreateBulletAfterAnim)
         {
@@ -40,6 +43,12 @@ public class BaseFirePoint : MonoBehaviour, IFirePoint
             CreateObject(GetCreatePos());
             FireEffect(GetCreatePos());
         }
+    }
+
+    // 获得炮筒朝向
+    public override Vector3 GetDir()
+    {
+        return (GetCreatePos() - _trFirePointBodyPos.position).normalized;
     }
     #endregion
 
@@ -59,6 +68,10 @@ public class BaseFirePoint : MonoBehaviour, IFirePoint
     protected virtual void CreateObject(Vector3 createPos, System.Action<BaseFireThing> afterCreate = null)
     {
         GameObject go = ObjectPoolController.Instantiate(_prefabFireThing.gameObject, createPos, Quaternion.identity);
+        if (!go.activeInHierarchy)
+        {
+            go.SetActive(true);
+        }
         if (afterCreate != null)
         {
             afterCreate(go.GetComponent<BaseFireThing>());
@@ -92,11 +105,5 @@ public class BaseFirePoint : MonoBehaviour, IFirePoint
     protected virtual Vector3 GetCreatePos()
     {
         return _trCreatePos.position;
-    }
-
-    // 获得炮筒朝向
-    public virtual Vector3 GetDir()
-    {
-        return (GetCreatePos() - _trFirePointBodyPos.position).normalized;
     }
 }

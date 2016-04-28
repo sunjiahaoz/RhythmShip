@@ -81,9 +81,9 @@ public class BaseSpaceItem : BaseFireThing {
 
 
 #region _BaseFireThing_
-    public override void OnThingCreate()
+    public override void OnThingCreate(IFirePoint fp)
     {
-        base.OnThingCreate();
+        base.OnThingCreate(fp);
         _fCurLifeTime = 0;
         _lifeCom.ReSet(_lifeCom.MaxValue, _lifeCom.MaxValue);
     }

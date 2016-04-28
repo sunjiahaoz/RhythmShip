@@ -20,7 +20,9 @@ public class DefaultRhythmAction : MonoBehaviour {
         if (GamingData.Instance.sceneConfig != null)
         {
             GamingData.Instance.sceneConfig._event._eventOnRhythmNormal -= _event__eventOnRhythmNormal;
-        }        
+        }
+        _nCurDelayCount = 0;
+        _nCurIntervalCount = 0;
     }
 
     int _nCurDelayCount = 0;

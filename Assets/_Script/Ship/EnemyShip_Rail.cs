@@ -36,7 +36,7 @@ public class EnemyShip_Rail : BaseRhythmEnemyShip
         _trailRenderer = _trail.GetComponent<SplineTrailRenderer>();
     }
     
-    public override void OnThingCreate(EnemyCreator creator)
+    public override void OnThingCreate(IFirePoint creator)
     {
         base.OnThingCreate(creator);
         RunTail();

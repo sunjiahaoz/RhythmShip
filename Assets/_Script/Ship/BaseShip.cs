@@ -12,6 +12,10 @@ public class BaseShip : BaseFireThing {
 
     protected virtual void Awake()
     {
+        if (_lifeCom == null)
+        {
+            _lifeCom = GetComponentInChildren<BaseLifeCom>();
+        }
         //生命值变化
         _lifeCom._event._eventOnAddValue += _event__eventOnAddValue;
         // 死亡
@@ -24,9 +28,9 @@ public class BaseShip : BaseFireThing {
         _lifeCom._event._eventOnDead -= _event__eventOnDead;
     }
 #region _BaseFireThing_
-    public override void OnThingCreate()
+    public override void OnThingCreate(IFirePoint fp)
     {
-        base.OnThingCreate();
+        base.OnThingCreate(fp);
         // 生命值重置
         _lifeCom.ReSet(_lifeCom.MaxValue, _lifeCom.MaxValue);
         // 其他

@@ -7,10 +7,14 @@ public class GridFirePoint : FirePointRhythm
 {
     [Header("随机点或按顺序循环")]
     public bool _bRandom = true;
+    [Header("随机的时候是否不能重复")]
+    public bool _bRandomNoRepeat = true;
     public Transform _posRoot;
     int _nCurIndex = 0;
 
     List<Transform> _lstPos = null;
+    // 用于保存一份随机的索引队列
+    List<int> _lstPosIndex = new List<int>();
     protected override void Awake()
     {
         base.Awake();
@@ -20,19 +24,25 @@ public class GridFirePoint : FirePointRhythm
             return;
         }
         _lstPos = ToolsUseful.GetComponentsInChildren<Transform>(_posRoot);
-        //_lstPos.Sort((tr1, tr2) => 
-        //{
-        //    return tr1.name.CompareTo(tr2.name);
-        //});
-
-        //TagLog.Log(LogIndex.FirePoint, "GridFirePoint posLength:" + _lstPos.Count);
-        //ToolsUseful.DebugOutList<Transform>(_lstPos);
+        
         if (_lstPos.Count == 0)
         {
             TagLog.LogError(LogIndex.FirePoint, "GridFirePoint 需要子节点");
             return;
         }
+
+        ResetListPosIndex();
         _nCurIndex = 0;
+    }
+
+    void ResetListPosIndex()
+    {
+        _lstPosIndex.Clear();
+        for (int i = 0; i < _lstPos.Count; ++i)
+        {
+            _lstPosIndex.Add(i);
+        }
+        ToolsUseful.Shuffle(_lstPosIndex);
     }
 
     public override void Fire()
@@ -53,7 +63,21 @@ public class GridFirePoint : FirePointRhythm
     {
         if (_bRandom)
         {
-            return _lstPos[Random.Range(0, _lstPos.Count)].position;
+            int nIndex = Random.Range(0, _lstPos.Count);
+            if (_bRandomNoRepeat)
+            {
+                if (_lstPosIndex.Count == 0)
+                {
+                    ResetListPosIndex();                    
+                }
+
+                if (_lstPosIndex.Count > 0)
+                {
+                    nIndex = _lstPosIndex[0];
+                    _lstPosIndex.RemoveAt(0);
+                }                
+            }
+            return _lstPos[nIndex].position;
         }
         else
         {

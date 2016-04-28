@@ -7,6 +7,7 @@ By: @sunjiahaoz, 2016-4-26
 using UnityEngine;
 using System.Collections;
 using sunjiahaoz;
+using DG.Tweening;
 
 public class SkillElem_Defender : FSMMono<SkillElem_Defender, SkillElem_Defender.State>
 {
@@ -15,11 +16,13 @@ public class SkillElem_Defender : FSMMono<SkillElem_Defender, SkillElem_Defender
     public enum State
     {
         Disable,            // 未启用
+        DefenderStart,  // 防御开始
         Defendering,     // 正在防御中
         DefendEnd,      // 防御效果完成，过渡到未启用的一个过渡状态
     }
-
+    
     DefenderState_DefendDisable _stateDisable = new DefenderState_DefendDisable();
+    DefenderState_Start _stateStart = new DefenderState_Start();
     DefenderState_DefendEnd _stateEnd = new DefenderState_DefendEnd();
     DefenderState_Defendering _stateDefendering = new DefenderState_Defendering();
     public override void FSMInit()
@@ -27,6 +30,7 @@ public class SkillElem_Defender : FSMMono<SkillElem_Defender, SkillElem_Defender
         base.FSMInit();
         FSM = new FiniteStateMachine<SkillElem_Defender, State>(this);
         FSM.RegisterState(_stateDisable);
+        FSM.RegisterState(_stateStart);
         FSM.RegisterState(_stateEnd);
         FSM.RegisterState(_stateDefendering);
     }
@@ -68,9 +72,27 @@ public class SkillElem_Defender : FSMMono<SkillElem_Defender, SkillElem_Defender
     // 初始化
     public void InitDefend()
     {
-        ChangeState(State.Defendering);
+        ChangeState(State.DefenderStart);
     }
 #endregion
+}
+
+public class DefenderState_Start : FSMState<SkillElem_Defender, SkillElem_Defender.State>
+{
+    public override SkillElem_Defender.State StateID
+    {
+        get
+        {
+            return SkillElem_Defender.State.DefenderStart;
+        }
+    }
+    public override void Enter()
+    {
+        base.Enter();
+        entity._trDefenderBody.localScale = Vector3.zero;
+        entity._trDefenderBody.transform.DOScale(entity._fRadius * Vector3.one, 0.2f).OnComplete(() => { entity.ChangeState(SkillElem_Defender.State.Defendering); });
+    }
+
 }
 
 public class DefenderState_Defendering : FSMState<SkillElem_Defender, SkillElem_Defender.State>
