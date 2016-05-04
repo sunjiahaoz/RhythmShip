@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using sunjiahaoz;
+using UnityEditor;
+using UnityEngine.SceneManagement;
 
 public class MusicRecorderBase : FSMMono<MusicRecorderBase, MusicRecorderBase.State> {
 #region _Event_
@@ -164,6 +166,31 @@ public class MusicRecorderBase : FSMMono<MusicRecorderBase, MusicRecorderBase.St
     {
         ChangeState(State.Stop);
     }
+
+#region _ContextMenu_
+
+    [ContextMenu("删除配置")]
+    void DeleteConfig()
+    {
+        string strFilePath = Application.dataPath + "/Resources/" + _strSavePath + "/" + _strRecordConfigName + ".txt";
+        UnityEditor.FileUtil.DeleteFileOrDirectory(strFilePath);
+        //SimpleFileProcess.DeleteFile(strFilePath);
+    }
+
+    [ContextMenu("配置名称为对象名")]
+    void SetConfigName()
+    {
+        _strSavePath = SceneManager.GetActiveScene().name + "/Record";
+        _strRecordConfigName = gameObject.name;
+    }
+    [ContextMenu("先删除再设置名称")]
+    void SetConfigNameAfterDelete()
+    {
+        DeleteConfig();
+        SetConfigName();
+    }
+#endregion
+
 }
 
 [System.Serializable]
