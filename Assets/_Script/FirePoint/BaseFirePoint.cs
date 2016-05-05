@@ -72,9 +72,12 @@ public class BaseFirePoint : IFirePoint
         {
             go.SetActive(true);
         }
+        BaseFireThing thing = go.GetComponent<BaseFireThing>();
+        thing.OnThingCreate(this);
+
         if (afterCreate != null)
         {
-            afterCreate(go.GetComponent<BaseFireThing>());
+            afterCreate(thing);
         }
     }
 

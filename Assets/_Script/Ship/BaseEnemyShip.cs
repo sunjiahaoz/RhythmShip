@@ -17,6 +17,10 @@ public class BaseEnemyShip : BaseShip{
         if (_bAutoGetColliderTriggers)
         {
             _trigger = GetComponentsInChildren<ColliderTrigger>();
+            if (_trigger.Length == 0)
+            {
+                TagLog.LogWarning(LogIndex.Enemy, "没有找到任何ColliderTrigger");
+            }
         }
         for (int i = 0; i < _trigger.Length; ++i )
         {

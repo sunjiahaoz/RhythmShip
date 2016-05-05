@@ -11,10 +11,15 @@ public class TEST : MonoBehaviour {
     {
         if (Input.GetKeyUp(KeyCode.Home))
         {
-            _ship.OnThingCreate(null);
+            Debug.Log(GamingData.Instance.gameBattleManager.CurAO.audioTime + "/" + GamingData.Instance.gameBattleManager.CurAO.clipLength);          
             //_rail.RunTail();
             //_line.CalCollider(_trPt1.position, _trPt2.position);
         }
+        if (Input.GetKey(KeyCode.End))
+        {
+            GamingData.Instance.gameBattleManager.CurAO.audioTime = GamingData.Instance.gameBattleManager.CurAO.clipLength / 2;
+        }
+        
     }
 #region _Trail_
     //public float speed;

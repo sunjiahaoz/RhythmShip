@@ -189,6 +189,20 @@ public class MusicRecorderBase : FSMMono<MusicRecorderBase, MusicRecorderBase.St
         DeleteConfig();
         SetConfigName();
     }
+
+    [ContextMenu("配置是否存在")]
+    void CheckConfigHas()
+    {
+        string strFilePath = Application.dataPath + "/Resources/" + _strSavePath + "/" + _strRecordConfigName + ".txt";
+        if (SimpleFileProcess.FileExists(strFilePath))
+        {
+            TagLog.Log(LogIndex.RecordRhythm, "文件存在！！");                
+        }
+        else
+        {
+            TagLog.Log(LogIndex.RecordRhythm, "文件不不不不不不存在！！");
+        }
+    }
 #endregion
 
 }

@@ -12,8 +12,7 @@ public class BulletFirePoint : BaseFirePoint {
         {
             BaseBullet bullet = go.GetComponent<BaseBullet>();
             if (bullet != null)
-            {
-                bullet.OnThingCreate(this);
+            {                
                 if (afterCreate != null)
                 {
                     afterCreate(go);

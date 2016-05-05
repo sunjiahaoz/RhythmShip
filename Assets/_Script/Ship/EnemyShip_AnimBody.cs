@@ -30,14 +30,14 @@ public class EnemyShip_AnimBody : BaseEnemyShip
 
     protected override void OnDestroy()
     {
-        base.OnDestroy();
+        base.OnDestroy();        
         _animTor.AnimationCompleted -= OnAnimComplete;
     }
 
     public override void OnThingCreate(IFirePoint creator)
     {
         base.OnThingCreate(creator);        
-        _animTor.Play();
+        _animTor.Play();        
     }
 
     void OnAnimComplete(tk2dSpriteAnimator tor, tk2dSpriteAnimationClip clip)

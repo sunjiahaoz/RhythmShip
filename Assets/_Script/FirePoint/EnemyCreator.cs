@@ -13,8 +13,7 @@ public class EnemyCreator : FirePointRhythm {
                 TagLog.LogError(LogIndex.FirePoint, thing.name + "中找不到BaseEnemyShip组件！");
             }
             else
-            {
-                ship.OnThingCreate(this);
+            {                
                 if (afterCreate != null)
                 {
                     afterCreate(thing);

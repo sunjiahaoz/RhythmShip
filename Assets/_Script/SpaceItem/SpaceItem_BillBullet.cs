@@ -25,7 +25,8 @@ public class SpaceItem_BillBullet : BaseSpaceItem {
     {
         base.OnThingCreate(fp);
         _ship = null;
-        _curType = (BillBulletType)Random.Range(1, 4);
+        _curType = (BillBulletType)RUL.Rul.RandInt(2, 3, RUL.InclusionOptions.Both);
+        TagLog.Log(LogIndex.SpaceItem, "子弹类型："+_curType);
         SetBodyByType(_curType);
     }
 
