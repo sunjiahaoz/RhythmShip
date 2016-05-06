@@ -20,6 +20,7 @@ public class PlayerShipSkillGuideTypeBase : PlayerShipBaseSkill
     [Header("执行一次后的间隔时间(秒)")]
     public float _fCastInterval = 1f;  // 执行一次后的间隔时间
 
+    [SerializeField]
     float _fCurFill = 100;
     float _fCurInterval = 0;
 
@@ -49,17 +50,16 @@ public class PlayerShipSkillGuideTypeBase : PlayerShipBaseSkill
         
     }
 
-    protected virtual void CastSubSkill()
+    void CastSubSkill()
     {
         if (_fCurFill < _fCostPerCast)
         {
-            TagLog.Log(LogIndex.Skill, "当前能量值不足，不执行技能");            
+            DoWhenEnergyNotEnough();                        
             return;
         }
         _fCurFill -= _fCostPerCast;
-        TagLog.Log(LogIndex.Skill, "执行技能！！！！！");        
+        DoSubSKill();
     }
-
     void Update_Recover()
     {
         if (_fCurFill >= _fTotalFill)
@@ -69,5 +69,18 @@ public class PlayerShipSkillGuideTypeBase : PlayerShipBaseSkill
         _fCurFill += (Time.deltaTime * _fRecoverSpeed);
         _fCurFill = Mathf.Min(_fCurFill, _fTotalFill);
     }
+
+
+    // 主要实现以下这两个方法即可
+    protected virtual void DoWhenEnergyNotEnough()
+    {
+        TagLog.Log(LogIndex.Skill, "当前能量值不足，不执行技能");
+    }
+    protected virtual void DoSubSKill()
+    {
+        TagLog.Log(LogIndex.Skill, "执行技能！！！！！");
+    }
+
+    
 
 }

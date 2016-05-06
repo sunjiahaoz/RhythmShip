@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using System.Collections;
 namespace sunjiahaoz
 {
@@ -24,5 +25,28 @@ namespace sunjiahaoz
             transform.localPosition = _vecGoal;            
             iTween.MoveTo(gameObject, iTween.Hash("ignoretimescale", _bIgnoreTimeScale, "position", _vecStart, "islocal", true, "delay", _fDelay, "time", _fDuration, "easetype", _type, "looptype", _loopType));
         }
+
+#region _Menu_
+        [ContextMenu("位置置为Start")]
+        void SetPosToStart()
+        {
+            transform.localPosition = _vecStart;
+        }
+        [ContextMenu("位置置为Goal")]
+        void SetPosToGoal()
+        {
+            transform.localPosition = _vecGoal;
+        }
+        [ContextMenu("Start为当前位置")]
+        void SetStartPos()
+        {
+            _vecStart = transform.localPosition;            
+        }
+        [ContextMenu("Goal为当前位置")]
+        void SetGoalPos()
+        {
+            _vecGoal = transform.localPosition;
+        }
+#endregion
     }
 }
