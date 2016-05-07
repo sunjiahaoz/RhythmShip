@@ -6,18 +6,16 @@ using sunjiahaoz.SteerTrack;
 using RUL;
 
 public class TEST : MonoBehaviour {
-    public BaseEnemyShip _ship;
+    public BaseEnemyShip _ship;    
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.Home))
         {
-            Debug.Log(GamingData.Instance.gameBattleManager.CurAO.audioTime + "/" + GamingData.Instance.gameBattleManager.CurAO.clipLength);          
-            //_rail.RunTail();
-            //_line.CalCollider(_trPt1.position, _trPt2.position);
+            CommonUIManager.Instance.ShowUI(ID_FRAME.ID_FramePlayerShip);
         }
         if (Input.GetKey(KeyCode.End))
         {
-            GamingData.Instance.gameBattleManager.CurAO.audioTime = GamingData.Instance.gameBattleManager.CurAO.clipLength / 2;
+            
         }
         
     }

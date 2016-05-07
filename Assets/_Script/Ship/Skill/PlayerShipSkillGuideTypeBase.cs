@@ -11,6 +11,34 @@ using sunjiahaoz;
 
 public class PlayerShipSkillGuideTypeBase : PlayerShipBaseSkill
 {
+#region _Event_
+    public class PlayerShipSkillGuideTypeEvent
+    {
+        // 0 成功释放技能， 1 能量不足
+        public delegate void OnCastSkill(int nCastState);
+        public event OnCastSkill _eventOnCastSkill;
+        public void OnCastSkillEvent(int nCastState)
+        {
+            if (_eventOnCastSkill != null)
+            {
+                _eventOnCastSkill(nCastState);
+            }
+        }
+
+        public delegate void OnCurEnergyValueChange(float fOff);
+        public event OnCurEnergyValueChange _eventOnCurEnergyValueChange;
+        public void OnCurEnergyValueChangeEvent(float fOff)
+        {
+            if (_eventOnCurEnergyValueChange != null)
+            {
+                _eventOnCurEnergyValueChange(fOff);
+            }
+        }
+    }
+
+    public PlayerShipSkillGuideTypeEvent _event = new PlayerShipSkillGuideTypeEvent();
+#endregion
+
     [Header("能量总值")]
     public float _fTotalFill = 100f;     // 能量总值
     [Header("执行一次消耗的能量值    ")]
@@ -22,12 +50,22 @@ public class PlayerShipSkillGuideTypeBase : PlayerShipBaseSkill
 
     [SerializeField]
     float _fCurFill = 100;
+    public float CurFill
+    {
+        get { return _fCurFill; }
+        set
+        {
+            float fOff = value - _fCurFill;
+            _fCurFill = value;
+            _event.OnCurEnergyValueChangeEvent(fOff);
+        }
+    }
     float _fCurInterval = 0;
 
     public override void InitSkill(PlayerShip ship)
     {
         base.InitSkill(ship);
-        _fCurFill = _fTotalFill;
+        CurFill = _fTotalFill;
         _fCurInterval = 0;
     }
 
@@ -52,22 +90,22 @@ public class PlayerShipSkillGuideTypeBase : PlayerShipBaseSkill
 
     void CastSubSkill()
     {
-        if (_fCurFill < _fCostPerCast)
+        if (CurFill < _fCostPerCast)
         {
             DoWhenEnergyNotEnough();                        
             return;
         }
-        _fCurFill -= _fCostPerCast;
+        CurFill -= _fCostPerCast;
         DoSubSKill();
     }
     void Update_Recover()
     {
-        if (_fCurFill >= _fTotalFill)
+        if (CurFill >= _fTotalFill)
         {
             return;
         }
-        _fCurFill += (Time.deltaTime * _fRecoverSpeed);
-        _fCurFill = Mathf.Min(_fCurFill, _fTotalFill);
+        CurFill += (Time.deltaTime * _fRecoverSpeed);
+        CurFill = Mathf.Min(CurFill, _fTotalFill);
     }
 
 
@@ -75,12 +113,17 @@ public class PlayerShipSkillGuideTypeBase : PlayerShipBaseSkill
     protected virtual void DoWhenEnergyNotEnough()
     {
         TagLog.Log(LogIndex.Skill, "当前能量值不足，不执行技能");
+        _event.OnCastSkillEvent(1);
     }
     protected virtual void DoSubSKill()
     {
         TagLog.Log(LogIndex.Skill, "执行技能！！！！！");
+        _event.OnCastSkillEvent(0);
     }
 
-    
-
+    // 当前能量百分比
+    public float GetCurEnergyPercent()
+    {
+        return CurFill / _fTotalFill;
+    }
 }

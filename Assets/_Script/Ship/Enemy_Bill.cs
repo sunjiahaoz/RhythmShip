@@ -13,6 +13,7 @@ using DG.Tweening;
 
 public class Enemy_Bill : BaseRhythmEnemyShip {
     public tk2dSpriteAnimator _anim;
+    public string _strDeadAudioId;
     SteeringDirLine _dirLine;    
     FirePointBill _fpb = null;
 
@@ -103,6 +104,10 @@ public class Enemy_Bill : BaseRhythmEnemyShip {
         yield return 0;
         //_anim.transform.localScale = Vector3.one * 3.5f;   // 死亡资源太小了
         _anim.Play("BillDead");
+        if (_strDeadAudioId.Length > 0)
+        {
+            AudioController.Play(_strDeadAudioId);
+        }
         transform.DOMove(transform.position - new Vector3(_fDeadJumpDistance, 0, 0), 0.5f);
         yield return new WaitForSeconds(0.5f);
         //_anim.transform.localScale = Vector3.one;

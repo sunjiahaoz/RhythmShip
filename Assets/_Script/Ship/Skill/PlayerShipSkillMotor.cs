@@ -6,6 +6,10 @@ public class PlayerShipSkillMotor : MonoBehaviour
 {
 
     PlayerShipBaseSkill _skill;
+    public PlayerShipBaseSkill CurSkill
+    {
+        get { return _skill; }
+    }
 
     public void EquipSkillMotor(int nID)
     {

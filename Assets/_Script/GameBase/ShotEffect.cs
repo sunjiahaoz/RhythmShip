@@ -34,7 +34,7 @@ public class EffectParam
     public Vector3 _scale = Vector3.one;
     public Transform _trBind = null;
     public Color _color = Color.white;
-    public int _nIdSFX;
+    public string _strAudioId;
 }
 
 public class ShotEffect
@@ -128,8 +128,11 @@ public class ShotEffect
                 ad.m_period = (clip.frames.Length / clip.fps);
                 
                 tor.Play(param._strName);
-                // 播放声音
-                //  todo   
+                
+                if (param._strAudioId.Length > 0)
+                {
+                    AudioController.Play(param._strAudioId);
+                }
             });
     }
 }

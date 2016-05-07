@@ -97,20 +97,17 @@ namespace sunjiahaoz
 
         void OnCompletePosition()
         {
-            transform.position = _posSrc;
-            Debug.Log("<color=blue>[" + "OnCompletePosition" + "]</color>");
+            transform.position = _posSrc;            
         }
 
         void OnCompleteRotation()
         {
-            transform.localRotation = _rotateSrc;
-            Debug.Log("<color=blue>[" + "OnCompleteRotation" + "]</color>");
+            transform.localRotation = _rotateSrc;            
         }
 
         void OnCompleteScale()
         {
-            transform.localScale = _scaleSrc;
-            Debug.Log("<color=blue>[" + "OnCompleteScale" + "]</color>");
+            transform.localScale = _scaleSrc;            
         }
     }
 }

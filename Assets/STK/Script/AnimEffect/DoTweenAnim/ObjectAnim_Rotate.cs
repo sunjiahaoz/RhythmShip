@@ -4,40 +4,7 @@ using DG.Tweening;
 using DG;
 
 namespace sunjiahaoz
-{
-    public class ObjectAnimBase : MonoBehaviour
-    {
-        public RunOpportunity _opt = RunOpportunity.Start;
-
-        void Awake()
-        {
-            if (_opt == RunOpportunity.Awake)
-            {
-                Run();
-            }
-        }
-
-        void Start()
-        {
-            if (_opt == RunOpportunity.Start)
-            {
-                Run();
-            }
-        }
-
-        void OnEnable()
-        {
-            if (_opt == RunOpportunity.Enable)
-            {
-                Run();
-            }
-        }
-
-        public virtual void Run()
-        {
-
-        }
-    }
+{   
     public class ObjectAnim_Rotate : ObjectAnimBase
     {        
         public Vector3 _endValue= Vector3.zero;
@@ -49,20 +16,33 @@ namespace sunjiahaoz
         public Ease _ease = Ease.Linear;
         public TweenCallback _actionComplete = null;
 
+
+        Tweener _tw = null;
+        public Tweener curTw
+        {
+            get { return _tw; }
+        }
         public override void Run()
         {
-            Tweener tween = transform.DORotate(_endValue, _fDur, _mode)
+            _tw = transform.DORotate(_endValue, _fDur, _mode)
                 .SetLoops(_nLoopCount, _loopType)
                 .SetEase(_ease);
 
             if (_fDelay > 0)
             {
-                tween.SetDelay(_fDelay);
+                _tw.SetDelay(_fDelay);
             }
             if (_actionComplete != null)
             {
-                tween.OnComplete(_actionComplete);
+                _tw.OnComplete(_actionComplete);
             }
         }
+
+        public override void Stop(bool bComplete = false)
+        {
+            base.Stop(bComplete);
+            _tw.Kill(bComplete);
+        }
+        
     }
 }

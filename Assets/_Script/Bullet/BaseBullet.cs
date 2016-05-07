@@ -11,6 +11,10 @@ public class BaseBullet : BaseFireThing{
     public EffectParam _effectDestroy;
     public int _nHurtValue = 1;
 
+    // 可以被碰撞的次数
+    public int _nLifeCount = 1;
+    int _nCurLifeCount = 1;
+
 #region _Mono_
     void Awake()
     {
@@ -25,6 +29,7 @@ public class BaseBullet : BaseFireThing{
     {
         TagLog.Log(LogIndex.Bullet, "OnBulletCreate");
         base.OnThingCreate(fp);
+        _nCurLifeCount = _nLifeCount;
         // 其他
         EventDelegate.Execute(_lstThingCreate);        
     }
@@ -60,7 +65,14 @@ public class BaseBullet : BaseFireThing{
         if (LifeCom != null)
         {
             LifeCom.AddValue(-_nHurtValue);
-            OnThingDestroy();
+            if (_nCurLifeCount > 0)
+            {
+                _nCurLifeCount--;
+                if (_nCurLifeCount == 0)
+                {
+                    OnThingDestroy();
+                }
+            }            
         }
     }
 }

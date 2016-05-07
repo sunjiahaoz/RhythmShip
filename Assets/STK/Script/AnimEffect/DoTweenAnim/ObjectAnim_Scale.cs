@@ -13,23 +13,30 @@ namespace sunjiahaoz
         public LoopType _loopType = LoopType.Restart;
         public Ease _ease = Ease.Linear;
         public TweenCallback _actionComplete = null;
-        
+
+        Tweener _tw = null;
         public override void Run()
         {
             transform.localScale = _startValue;
 
-            Tweener tw = transform.DOScale(_endValue, _fDur)
+            _tw = transform.DOScale(_endValue, _fDur)
                 .SetLoops(_nLoopCount, _loopType)
                 .SetEase(_ease);
 
             if (_fDelay > 0)
             {
-                tw.SetDelay(_fDelay);
+                _tw.SetDelay(_fDelay);
             }
             if (_actionComplete != null)
             {
-                tw.OnComplete(_actionComplete);
+                _tw.OnComplete(_actionComplete);
             }
+        }
+
+        public override void Stop(bool bComplete = false)
+        {
+            base.Stop();
+            _tw.Kill(bComplete);
         }
     }
 }
