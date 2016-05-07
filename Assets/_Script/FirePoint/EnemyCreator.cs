@@ -10,7 +10,7 @@ public class EnemyCreator : FirePointRhythm {
             BaseEnemyShip ship = thing.GetComponent<BaseEnemyShip>();
             if (ship == null)
             {
-                TagLog.LogError(LogIndex.FirePoint, thing.name + "中找不到BaseEnemyShip组件！");
+                //TagLog.LogError(LogIndex.FirePoint, thing.name + "中找不到BaseEnemyShip组件！");
             }
             else
             {                

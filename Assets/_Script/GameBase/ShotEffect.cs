@@ -32,6 +32,7 @@ public class EffectParam
     public string _strName;
     public Vector3 _pos = Vector3.zero;
     public Vector3 _scale = Vector3.one;
+    public Vector3 _rotate = Vector3.zero;
     public Transform _trBind = null;
     public Color _color = Color.white;
     public string _strAudioId;
@@ -93,6 +94,7 @@ public class ShotEffect
             "name", data._strPrefabName,
             "folder", data._strFolderPath,
             "scale", param._scale,
+            "rotation", param._rotate,
             "bindPoint", param._trBind,
             "position", param._pos), (go) => 
             {                
