@@ -136,6 +136,8 @@ public class GameManager_Start : FSMState<GameBattleManager, GameBattleManager.S
         TagLog.Log(LogIndex.GameManager, "Start Enter 开始游戏！！！");        
         entity.CurAO = AudioController.PlayMusic(GamingData.Instance.sceneConfig._strMusicName);
         entity.CurAO.completelyPlayedDelegate += OnCurAOComplete;
+
+        CommonUIManager.Instance.ShowUI(ID_FRAME.ID_FramePlayerShip);
         entity._event.OnState_StartEvent();
     }
 

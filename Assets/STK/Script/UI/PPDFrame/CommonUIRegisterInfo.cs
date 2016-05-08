@@ -18,6 +18,7 @@ public enum ID_FRAME
     ID_FrameSwitchScene,
     ID_FrameStart,
     ID_FramePlayerShip,
+    ID_FrameMusic,
 }
 
 // 注册信息
@@ -56,6 +57,7 @@ public class CommonUIRegisterInfo : BaseUIRegisterInfo<ID_FRAME, FrameRegInfo>
         RegisterUI(ID_FRAME.ID_FrameSwitchScene, "FrameSwitchScene");
         RegisterUI(ID_FRAME.ID_FrameStart, "FrameStart");
         RegisterUI(ID_FRAME.ID_FramePlayerShip, "FramePlayerShip");
+        RegisterUI(ID_FRAME.ID_FrameMusic, "FrameMusic");
     }
 
     void RegisterUI(ID_FRAME idFrame, string strPrefabName)

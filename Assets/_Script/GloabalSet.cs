@@ -27,7 +27,7 @@ public class GloabalSet : MonoBehaviour {
     
     void InitSet()
     {
-        TagLog.SetShowLogLevel(TagLog.LogLevel.None);
+        //TagLog.SetShowLogLevel(TagLog.LogLevel.None);
         TagLog.SetLogTag(LogIndex.Ship, "Ship", "cyan");
         TagLog.SetLogTag(LogIndex.Bullet, "Bullet", "orange", TagLog.LogLevel.Warning);
         TagLog.SetLogTag(LogIndex.FirePoint, "FirePoint", "green");
