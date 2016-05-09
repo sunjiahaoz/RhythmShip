@@ -23,6 +23,7 @@ public class EnemyText : BaseEnemyShip {
     {
         _strText = strText;
         ReGenerateContent();
+        _lifeCom.ReSet(_strText.Length, _strText.Length);
     }
 
     void ReGenerateContent()

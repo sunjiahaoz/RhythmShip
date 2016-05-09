@@ -20,7 +20,7 @@ public class BulletFirePoint : BaseFirePoint {
             }
             else
             {
-                TagLog.LogWarning(LogIndex.FirePoint, "子弹Prefab没有BaseBullet组件！！", this);
+                //TagLog.LogWarning(LogIndex.FirePoint, "子弹Prefab没有BaseBullet组件！！", this);
             }
         });
     }

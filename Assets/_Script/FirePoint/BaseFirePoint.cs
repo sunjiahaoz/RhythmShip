@@ -31,17 +31,20 @@ public class BaseFirePoint : IFirePoint
     public Transform _trFirePointBodyPos;           // 身体位置，与trCreatePos可以得出朝向
     public Transform _trCreatePos;                      // 创建出的对象的初始位置
 
+    public ComGetCreatePos _comGetCreatePos;
+
     #region _IFirePoint_
     public override void Fire()
     {
+        Vector3 pos = GetCreatePos();
         if (_bCreateBulletAfterAnim)
         {
-            FireEffect(GetCreatePos(), true);
+            FireEffect(pos, true);
         }
         else
         {
-            CreateObject(GetCreatePos());
-            FireEffect(GetCreatePos());
+            CreateObject(pos);
+            FireEffect(pos);
         }
     }
 
@@ -107,6 +110,10 @@ public class BaseFirePoint : IFirePoint
 
     protected virtual Vector3 GetCreatePos()
     {
+        if (_comGetCreatePos != null)
+        {
+            return _comGetCreatePos.GetNextPos();
+        }
         return _trCreatePos.position;
     }
 }

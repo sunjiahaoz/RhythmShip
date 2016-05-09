@@ -13,6 +13,8 @@ namespace sunjiahaoz
         public iTween.EaseType _type = iTween.EaseType.spring;        
         public bool _bIgnoreTimeScale = false;
 
+        public bool _bDebugDraw = true;
+
         public override void Run()
         {
             transform.localPosition = _vecStart;
@@ -24,6 +26,15 @@ namespace sunjiahaoz
         {
             transform.localPosition = _vecGoal;            
             iTween.MoveTo(gameObject, iTween.Hash("ignoretimescale", _bIgnoreTimeScale, "position", _vecStart, "islocal", true, "delay", _fDelay, "time", _fDuration, "easetype", _type, "looptype", _loopType));
+        }
+
+        void OnDrawGizmos()
+        {
+            if (_bDebugDraw)
+            {
+                Gizmos.DrawSphere(_vecStart, 40);
+                Gizmos.DrawSphere(_vecGoal, 40);
+            }
         }
 
 #region _Menu_

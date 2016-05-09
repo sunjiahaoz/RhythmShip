@@ -36,6 +36,8 @@ public class EffectParam
     public Transform _trBind = null;
     public Color _color = Color.white;
     public string _strAudioId;
+
+    public ComGetColor _comGetColor;
 }
 
 public class ShotEffect
@@ -89,6 +91,11 @@ public class ShotEffect
         EffectParam param,
         System.Action actionCompete = null)
     {
+        if (param._comGetColor != null)
+        {
+            param._color = param._comGetColor.GetColor();
+        }
+
         AnimData data = _dictData[index];
         OneShotEffectMgr._Instance.OneShotParticleEffect(ToolsUseful.Hash(
             "name", data._strPrefabName,

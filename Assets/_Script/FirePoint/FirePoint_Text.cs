@@ -5,11 +5,6 @@ using sunjiahaoz;
 
 public class FirePoint_Text : FirePointRhythm
 {
-    public TextAsset _content;
-
-    List<string> _lstLines = new List<string>();
-    int _nCurIndex = 0;
-
     protected override void Awake()
     {
         base.Awake();
@@ -18,32 +13,23 @@ public class FirePoint_Text : FirePointRhythm
             TagLog.LogError(LogIndex.FirePoint, "发射点"+gameObject.name + "的发射物必须为EnemyText！！！");
             return;
         }
-        ReLoadContent();
     }
 
-    void ReLoadContent()
+    string _strText = "";
+    public void SetString(string text)
     {
-        _nCurIndex = 0;
-        _lstLines.Clear();
-        ArrayList lstLines = SimpleFileProcess.LoadFile(_content);
-        for (int i = 0; i < lstLines.Count; ++i)
-        {
-            _lstLines.Add((string)lstLines[i]);
-        }
+        _strText = text;
     }
-
     protected override void CreateObject(Vector3 createPos, System.Action<BaseFireThing> afterCreate = null)
     {
         base.CreateObject(createPos, (thing) =>
         {
-            if (_nCurIndex >= _lstLines.Count)
+            if (_strText.Length == 0)
             {
-                TagLog.LogWarning(LogIndex.FirePoint, gameObject.name + "还要文本？？！！", this);
                 return;
             }
             EnemyText et = (EnemyText)thing;
-            et.SetText(_lstLines[_nCurIndex]);
-            _nCurIndex++;
+            et.SetText(_strText);            
 
             if (afterCreate != null)
             {
