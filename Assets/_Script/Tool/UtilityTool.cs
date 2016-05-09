@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Dest.Math;
 using RUL;
 
 public class UtilityTool
@@ -164,5 +165,35 @@ public class UtilityTool
             pos[nIndex] = new Vector3(x, y, posStart.z);
         }
         return pos;
+    }
+
+    /// <summary>
+    /// 正多边形的点,至少为3个点
+    /// </summary>
+    /// <param name="posCenter">中心位置</param>
+    /// <param name="fRadios">半径</param>
+    /// <param name="nPolygonPointCount">正几多边形，至少为3</param>
+    /// <returns></returns>
+    public static Vector3[] RegularPolygonPosPoint(Vector3 posCenter, float fRadios, int nPolygonPointCount)
+    {
+        if (nPolygonPointCount < 3)
+        {
+            return null;
+        }
+        Vector3[] poses = new Vector3[nPolygonPointCount];
+
+        Vector2 pos = posCenter;
+        Circle2 _c2 = new Circle2(ref pos, fRadios);
+        
+        int count = nPolygonPointCount;
+        float delta = 2f * Mathf.PI / count;
+        Vector3 prev = _c2.Eval(0);
+        for (int i = 1; i <= count; ++i)
+        {
+            Vector3 curr = _c2.Eval(i * delta);
+            poses[i - 1] = curr;
+            prev = curr;
+        }
+        return poses;
     }
 }
