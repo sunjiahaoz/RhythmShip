@@ -196,4 +196,48 @@ public class UtilityTool
         }
         return poses;
     }
+
+    /// <summary>
+    /// 在获得圆周上几个点
+    /// 需要注意要nGenerateCount * nIntervalCount需要小于nGenerateCirclePoints
+    /// </summary>
+    /// <param name="posCenter">圆心</param>
+    /// <param name="fRadius">半径</param>
+    /// <param name="nGenerateCirclePoints">生成圆用多少个点</param>
+    /// <param name="nIntervalCount">每个几个点取一次位置</param>
+    /// <param name="nGenerateCount">要生成多少个点</param>
+    /// <returns></returns>
+    public static Vector3[] PointsOnCircle(Vector3 posCenter, float fRadius, int nGenerateCount, int nIntervalCount = 4, int nGenerateCirclePoints = 50)
+    {
+        if (nIntervalCount <= 0
+            || nGenerateCount <= 0
+            || nGenerateCirclePoints <= 0)
+        {
+            return null;
+        }
+        Circle2 cc = new Circle2(posCenter, fRadius);
+        int count = nGenerateCirclePoints;
+        float delta = 2f * Mathf.PI / count;
+        int nTrIndex = 0;
+        // 数量是否有问题
+        if (nGenerateCount * nIntervalCount >= nGenerateCirclePoints)
+        {            
+            return null;
+        }
+        Vector3[] res = new Vector3[nGenerateCount];
+        for (int i = 0; i <= count; ++i)
+        {
+            if (i % nIntervalCount == 0)
+            {
+                Vector3 curr = cc.Eval(i * delta);
+                res[nTrIndex] = curr;
+                nTrIndex++;
+            }
+            if (nTrIndex >= nGenerateCount)
+            {
+                break;
+            }
+        }
+        return res;
+    }
 }
