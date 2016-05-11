@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using sunjiahaoz;
 using Dest.Math;
 using RUL;
 
 public class UtilityTool
 {
+    #region _Pos_
     /// <summary>
     /// 轨道计算
     /// 计算屏幕上四个点，组成两个折点的路径
@@ -17,8 +19,8 @@ public class UtilityTool
     /// <param name="fMinHeightInterval">防止点生成在边缘</param>
     /// <param name="bH">是水平的还是垂直的（水平指的是中间线段是水平的还是垂直的），true为水平的</param>
     /// <returns>随机生成的四个点</returns>
-    public static Vector3[] GenerateRail(Vector3 ptScreenLT, Vector3 ptScrrenRB, 
-        float fMinWidthInterval, float fMinHeightInterval, 
+    public static Vector3[] GenerateRail(Vector3 ptScreenLT, Vector3 ptScrrenRB,
+        float fMinWidthInterval, float fMinHeightInterval,
         bool bH, bool bLeftTopIsStartSide)
     {
         Vector3 _leftTop = ptScreenLT;
@@ -135,7 +137,7 @@ public class UtilityTool
                     pos.x += fRange;
                 }
             }
-            
+
             pathPos[i] = pos;
         }
         return pathPos;
@@ -184,7 +186,7 @@ public class UtilityTool
 
         Vector2 pos = posCenter;
         Circle2 _c2 = new Circle2(ref pos, fRadios);
-        
+
         int count = nPolygonPointCount;
         float delta = 2f * Mathf.PI / count;
         Vector3 prev = _c2.Eval(0);
@@ -221,7 +223,7 @@ public class UtilityTool
         int nTrIndex = 0;
         // 数量是否有问题
         if (nGenerateCount * nIntervalCount >= nGenerateCirclePoints)
-        {            
+        {
             return null;
         }
         Vector3[] res = new Vector3[nGenerateCount];
@@ -240,4 +242,88 @@ public class UtilityTool
         }
         return res;
     }
+    #endregion
+
+    #region _color_
+    /// <summary>
+    /// 三色混合
+    /// </summary>
+    /// <param name="color1"></param>
+    /// <param name="color2"></param>
+    /// <param name="color3"></param>
+    /// <param name="greyControl"></param>
+    /// <returns></returns>
+    public static Color RandomMixTriad(Color color1, Color color2, Color color3, float greyControl)
+    {
+        int randomIndex = Random.Range(0, 256) % 3;
+        float mixRatio1 = (randomIndex == 0) ? Random.Range(0f, 1f) * greyControl : Random.Range(0f, 1f);
+        float mixRatio2 = (randomIndex == 1) ? Random.Range(0f, 1f) * greyControl : Random.Range(0f, 1f);
+        float mixRatio3 = (randomIndex == 2) ? Random.Range(0f, 1f) * greyControl : Random.Range(0f, 1f);
+        float sum = mixRatio1 + mixRatio2 + mixRatio3;
+        mixRatio1 /= sum;
+        mixRatio2 /= sum;
+        mixRatio3 /= sum;
+
+        Color newColor = new Color();
+        newColor.a = 255;
+        newColor.r = (mixRatio1 * color1.r + mixRatio2 * color2.r + mixRatio3 * color3.r) / 255f;
+        newColor.g = (mixRatio1 * color1.g + mixRatio2 * color2.g + mixRatio3 * color3.g) / 255f;
+        newColor.b = (mixRatio1 * color1.b + mixRatio2 * color2.b + mixRatio3 * color3.b) / 255f;
+        return newColor;
+    }
+
+    /// <summary>
+    /// 通过HSL方法获得一组颜色
+    /// 自己去找HSL的色相盘
+    /// </summary>
+    /// <param name="colorCount"></param>
+    /// <param name="offsetAngle1">[0,360]</param>
+    /// <param name="offsetAngle2">[0,360]</param>
+    /// <param name="rangeAngle0">[0,360]</param>
+    /// <param name="rangeAngle1">[0,360]</param>
+    /// <param name="rangeAngle2">[0,360]</param>
+    /// <param name="saturation">[0,100]</param>
+    /// <param name="luminance">[0,100]</param>
+    /// <returns></returns>
+    public static List<Color> GenerateColors_Harmony(
+   int colorCount,
+   float offsetAngle1,
+   float offsetAngle2,
+   float rangeAngle0,
+   float rangeAngle1,
+   float rangeAngle2,
+   float saturation, float luminance)
+    {
+        List<Color> colors = new List<Color>();
+
+        float referenceAngle = Random.Range(0f, 1f) * 360;
+
+        for (int i = 0; i < colorCount; i++)
+        {
+            float randomAngle =
+                Random.Range(0f, 1f) * (rangeAngle0 + rangeAngle1 + rangeAngle2);
+
+            if (randomAngle > rangeAngle0)
+            {
+                if (randomAngle < rangeAngle0 + rangeAngle1)
+                {
+                    randomAngle += offsetAngle1;
+                }
+                else
+                {
+                    randomAngle += offsetAngle2;
+                }
+            }
+
+            ColorHSL hslColor = new ColorHSL(
+               ((referenceAngle + randomAngle)) % 360f,
+               saturation,
+               luminance);
+
+            colors.Add(hslColor.Color());
+        }
+
+        return colors;
+    }
+    #endregion
 }

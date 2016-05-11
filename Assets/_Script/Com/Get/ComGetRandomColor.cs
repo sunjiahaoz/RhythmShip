@@ -8,6 +8,7 @@ public enum RandomColorType
     RandomWhitLightness,
     RandomWhitAlpha,
     Between,
+    Hues,
     List,
 }
 
@@ -21,6 +22,8 @@ public class ComGetRandomColor : ComGetColor {
     [Header("Between类型时有效")]
     public Color _cFrom = Color.white;
     public Color _cTo = Color.white;
+    [Header("Hues时有效")]
+    public Hues _hues = Hues.Monochrome;
     [Header("List时有效")]
     public Color[] _lstColor;
 
@@ -48,6 +51,10 @@ public class ComGetRandomColor : ComGetColor {
                         return Color.white;
                     }
                     return _lstColor[Random.Range(0, _lstColor.Length)];
+                }
+            case RandomColorType.Hues:
+                {
+                    return RulCol.RandColor(_hues);
                 }
                 
             default:
