@@ -161,6 +161,10 @@ public class UtilityTool
         int nIndex = 0;
         for (nIndex = 0, fzta = 0; fzta <= fCircleCount * pi; fzta += fStep, nIndex++)
         {
+            if (nIndex >= pos.Length)
+            {
+                break;
+            }
             float r = a * fzta;
             float x = posStart.x + r * Mathf.Cos(fzta);
             float y = posStart.y - r * Mathf.Sin(fzta);
@@ -253,8 +257,8 @@ public class UtilityTool
     /// <param name="color3"></param>
     /// <param name="greyControl"></param>
     /// <returns></returns>
-    public static Color RandomMixTriad(Color color1, Color color2, Color color3, float greyControl)
-    {
+    public static Color RandomMixTriad(Color color1, Color color2, Color color3, float greyControl, float fAlpha = 1f)
+    {        
         int randomIndex = Random.Range(0, 256) % 3;
         float mixRatio1 = (randomIndex == 0) ? Random.Range(0f, 1f) * greyControl : Random.Range(0f, 1f);
         float mixRatio2 = (randomIndex == 1) ? Random.Range(0f, 1f) * greyControl : Random.Range(0f, 1f);
@@ -265,10 +269,10 @@ public class UtilityTool
         mixRatio3 /= sum;
 
         Color newColor = new Color();
-        newColor.a = 255;
-        newColor.r = (mixRatio1 * color1.r + mixRatio2 * color2.r + mixRatio3 * color3.r) / 255f;
-        newColor.g = (mixRatio1 * color1.g + mixRatio2 * color2.g + mixRatio3 * color3.g) / 255f;
-        newColor.b = (mixRatio1 * color1.b + mixRatio2 * color2.b + mixRatio3 * color3.b) / 255f;
+        newColor.a = fAlpha;
+        newColor.r = (mixRatio1 * color1.r + mixRatio2 * color2.r + mixRatio3 * color3.r);// / 255f;
+        newColor.g = (mixRatio1 * color1.g + mixRatio2 * color2.g + mixRatio3 * color3.g);// / 255f;
+        newColor.b = (mixRatio1 * color1.b + mixRatio2 * color2.b + mixRatio3 * color3.b);// / 255f;
         return newColor;
     }
 

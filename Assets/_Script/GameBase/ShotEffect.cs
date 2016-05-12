@@ -37,7 +37,7 @@ public class EffectParam
     public Color _color = Color.white;
     public string _strAudioId;
 
-    public ComGetColor _comGetColor;
+    public ComGetColor _comGetColor;    
 }
 
 public class ShotEffect

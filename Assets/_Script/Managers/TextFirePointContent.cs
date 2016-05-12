@@ -38,7 +38,7 @@ public class TextFirePointContent : FirePointRhythm
         || _nCurIndex >= _lstLines.Count)
         {
             return string.Empty;
-        }
+        }        
         return _lstLines[_nCurIndex++];
     }
 
@@ -47,6 +47,7 @@ public class TextFirePointContent : FirePointRhythm
     public override void Fire()
     {
         string str = GetNextString();
+        //TagLog.Log(LogIndex.FirePoint, "FireSting:" + _lstLines[_nCurIndex]);
         FirePoint_Text fp = null;
         if (str.Length <= _nSmallLength)
         {

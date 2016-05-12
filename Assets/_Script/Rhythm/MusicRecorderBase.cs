@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using sunjiahaoz;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine.SceneManagement;
 
 public class MusicRecorderBase : FSMMono<MusicRecorderBase, MusicRecorderBase.State> {
@@ -169,6 +171,8 @@ public class MusicRecorderBase : FSMMono<MusicRecorderBase, MusicRecorderBase.St
 
 #region _ContextMenu_
 
+#if UNITY_EDITOR
+
     [ContextMenu("删除配置")]
     void DeleteConfig()
     {
@@ -203,6 +207,7 @@ public class MusicRecorderBase : FSMMono<MusicRecorderBase, MusicRecorderBase.St
             TagLog.Log(LogIndex.RecordRhythm, "文件不不不不不不存在！！");
         }
     }
+#endif
 #endregion
 
 }
