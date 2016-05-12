@@ -44,4 +44,19 @@ public class EnemyText : BaseEnemyShip {
         collider.isTrigger = true;
         collider.size = new Vector3(collider.size.x, collider.size.y, 500);        
     }
+
+    protected override void ShotDestroyEffectWhenThingDestroy()
+    {
+        if (_effectDestroy._strName.Length > 0)
+        {
+            _effectDestroy._pos = transform.position;
+
+            BoxCollider collider = ComText.GetComponent<BoxCollider>();
+            if (collider != null)
+            {                
+                _effectDestroy._pos.x += (collider.size.x / 2);
+            }            
+            ShotEffect.Instance.Shot(_effectDestroy);
+        }
+    }
 }

@@ -39,17 +39,22 @@ public class BaseShip : BaseFireThing {
     public override void OnThingDestroy()
     {
         base.OnThingDestroy();
+        ShotDestroyEffectWhenThingDestroy();
+        ObjectPoolController.Destroy(gameObject);
+        // 其他
+        EventDelegate.Execute(_lstOnShipDestroyEvent);
+    }
+#endregion   
+
+    protected virtual void ShotDestroyEffectWhenThingDestroy()
+    {
         if (_effectDestroy._strName.Length > 0)
         {
             //TagLog.Log(LogIndex.Ship, "OnShipDestroy播放特效");
             _effectDestroy._pos = transform.position;
             ShotEffect.Instance.Shot(_effectDestroy);
         }
-        ObjectPoolController.Destroy(gameObject);
-        // 其他
-        EventDelegate.Execute(_lstOnShipDestroyEvent);
     }
-#endregion   
 
     protected virtual void _event__eventOnAddValue(int nOffValue)
     {

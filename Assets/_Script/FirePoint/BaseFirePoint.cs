@@ -70,6 +70,11 @@ public class BaseFirePoint : IFirePoint
     // 创建
     protected virtual void CreateObject(Vector3 createPos, System.Action<BaseFireThing> afterCreate = null)
     {
+        if (_prefabFireThing == null)
+        {
+            return;
+        }
+
         GameObject go = ObjectPoolController.Instantiate(_prefabFireThing.gameObject, createPos, Quaternion.identity);
         if (!go.activeInHierarchy)
         {

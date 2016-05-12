@@ -11,7 +11,7 @@ public class PlayerEquipedFirePointMgr
 
     //Dictionary<int, EquipData> _dictShootFirePoint = new Dictionary<int, EquipData>();
     private const string FirePointFolder = "PrefabFirePoint";
-    public void CreateFirePoint(int nId, System.Action<BulletFirePoint> actionAfterCreate)
+    public void CreateFirePoint(int nId, System.Action<BaseShootMotorFirePoint> actionAfterCreate)
     {
         if (!Equip_FirePointConfig.dic.ContainsKey(nId))
         {
@@ -22,9 +22,9 @@ public class PlayerEquipedFirePointMgr
 
     void OnCreateFirePoint(UnityEngine.Object assert, System.Object arg)
     {
-        System.Action<BulletFirePoint> actionCreate = (System.Action<BulletFirePoint>)arg;
+        System.Action<BaseShootMotorFirePoint> actionCreate = (System.Action<BaseShootMotorFirePoint>)arg;
         GameObject go = ObjectPoolController.Instantiate(assert as GameObject);
-        BulletFirePoint fp = go.GetComponent<BulletFirePoint>();
+        BaseShootMotorFirePoint fp = go.GetComponent<BaseShootMotorFirePoint>();
         if (fp != null)
         {
             actionCreate(fp);

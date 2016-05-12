@@ -7,8 +7,8 @@ public class PlayerShipShootMotor : MonoBehaviour
     public int _nNorShootInterval = 1000;    // 普通射击间隔时间，毫秒
     protected ActionCD _cdNorShoot = new ActionCD();
 
-    BulletFirePoint _firePoint;
-    public BulletFirePoint firePoint
+    BaseShootMotorFirePoint _firePoint;
+    public BaseShootMotorFirePoint firePoint
     {
         get { return _firePoint; }
     }
@@ -22,6 +22,7 @@ public class PlayerShipShootMotor : MonoBehaviour
             _firePoint.transform.parent = transform;
             _firePoint.transform.localPosition = Vector3.zero;
             _firePoint.transform.localScale = Vector3.one;
+            _firePoint.OnEquiped();
         });
     }
 
