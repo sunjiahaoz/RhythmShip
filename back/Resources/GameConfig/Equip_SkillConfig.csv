@@ -1,6 +1,0 @@
-int,string
-id,prefabName
-标示,预制体名称
-0,Skill_Base
-1,Skill_Base
-2,RecoverLife_FP
