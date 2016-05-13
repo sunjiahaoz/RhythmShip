@@ -15,11 +15,19 @@ public class ShootMootor_CircleChiLun : BaseShootMotorFirePoint
     }
 
     public override void Fire()
-    {
+    {        
         base.Fire();
         for (int i = 0; i < _chilun.Length; ++i)
         {
             _chilun[i].PushEnergy();
         }
+    }
+    protected override void FireEffect(Vector3 effectPos, bool bCreateBulletAfterEffect = false)
+    {
+        if (_chilun[0].Progress() < 0.9f)
+        {
+            return;
+        }
+        base.FireEffect(_chilun[0]._body.position, bCreateBulletAfterEffect);
     }
 }

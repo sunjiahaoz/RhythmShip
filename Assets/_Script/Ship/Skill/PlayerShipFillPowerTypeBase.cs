@@ -16,6 +16,14 @@ public class PlayerShipFillPowerTypeBase : PlayerShipBaseSkill{
 
     [SerializeField]
     float _fCurFillPower = 0;
+
+    public override SkillType skillType
+    {
+        get
+        {
+            return SkillType.FillType;
+        }
+    }
     public override void InitSkill(PlayerShip ship)
     {
         base.InitSkill(ship);        

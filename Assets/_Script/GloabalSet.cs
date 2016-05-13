@@ -17,6 +17,7 @@ public static class LogIndex
     public static int Skill = 10;
     public static int SpaceItem = 11;
     public static int BG = 12;
+    public static int UI = 13;
 }
 
 public class GloabalSet : MonoBehaviour {
@@ -42,6 +43,7 @@ public class GloabalSet : MonoBehaviour {
         TagLog.SetLogTag(LogIndex.Skill, "Skill", "#aa00ffff");
         TagLog.SetLogTag(LogIndex.SpaceItem, "SpaceItem", "#00aaffff");
         TagLog.SetLogTag(LogIndex.BG, "BG", "#cc3366ff");
+        TagLog.SetLogTag(LogIndex.UI, "UI", "#993333ff");
 
         
         // 自身

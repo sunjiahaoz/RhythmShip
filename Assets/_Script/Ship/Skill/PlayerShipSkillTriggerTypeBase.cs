@@ -19,9 +19,41 @@ using System.Collections;
 using sunjiahaoz;
 
 public class PlayerShipSkillTriggerTypeBase : PlayerShipBaseSkill {
+
+#region _Event_
+    public class PlayerShipSkillTriggerTypeBaseEvent
+    {
+        // 0 成功释放技能， 1 能量不足
+        public delegate void OnCastSkill(int nCastState);
+        public event OnCastSkill _eventOnCastSkill;
+        public void OnCastSkillEvent(int nCastState)
+        {
+            if (_eventOnCastSkill != null)
+            {
+                _eventOnCastSkill(nCastState);
+            }
+        }
+    }
+    public PlayerShipSkillTriggerTypeBaseEvent _event = new PlayerShipSkillTriggerTypeBaseEvent();
+#endregion
+
     [Header("技能CD时间(毫秒)")]
     public int _nCDTime = 1000;    // 技能CD时间
     protected ActionCD _skillCD = new ActionCD();
+
+    public ActionCD SkillCD
+    {
+        get { return _skillCD; }
+    }
+
+
+    public override SkillType skillType
+    {
+        get
+        {
+            return SkillType.TriggerType;
+        }
+    }
 
     public override void InitSkill(PlayerShip ship)
     {
@@ -61,6 +93,7 @@ public class PlayerShipSkillTriggerTypeBase : PlayerShipBaseSkill {
     /// </summary>
     protected virtual void CastSkill()
     {
+        _event.OnCastSkillEvent(0);
         TagLog.Log(LogIndex.Skill, "Cast Skill !!!!!!!!!!!!");
     }
 
@@ -69,6 +102,7 @@ public class PlayerShipSkillTriggerTypeBase : PlayerShipBaseSkill {
     /// </summary>
     protected virtual void OnInCD()
     {
+        _event.OnCastSkillEvent(1);
         TagLog.Log(LogIndex.Skill, "In CD !!!!");
     }
 }

@@ -10,8 +10,7 @@ using System.Collections.Generic;
 using Dest.Math;
 
 namespace sunjiahaoz
-{
-
+{    
     public class ChildrenOnCircle : MonoBehaviour
     {
         List<Transform>_rotatePoint;

@@ -6,12 +6,12 @@ using sunjiahaoz.SteerTrack;
 using RUL;
 
 public class TEST : MonoBehaviour {
-    public BaseEnemyShip _ship;    
+    public Elem_SpriteAnim _anim;
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.Home))
         {
-            CommonUIManager.Instance.ShowUI(ID_FRAME.ID_FramePlayerShip);
+            _anim.Play();
         }
         if (Input.GetKey(KeyCode.End))
         {

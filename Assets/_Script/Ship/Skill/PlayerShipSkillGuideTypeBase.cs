@@ -62,6 +62,14 @@ public class PlayerShipSkillGuideTypeBase : PlayerShipBaseSkill
     }
     float _fCurInterval = 0;
 
+    public override SkillType skillType
+    {
+        get
+        {
+            return SkillType.GuideType;
+        }
+    }
+
     public override void InitSkill(PlayerShip ship)
     {
         base.InitSkill(ship);

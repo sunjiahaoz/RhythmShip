@@ -49,6 +49,11 @@ public class Elem_ChiLun : MonoBehaviour {
         transform.position = _lstTradePos[0].position;
     }
 
+    public float Progress()
+    {
+        return _fCurEnergy / _fEergyMax;
+    }
+
     void Update()
     {
         float fProgress = _fCurEnergy / _fEergyMax;
@@ -62,7 +67,7 @@ public class Elem_ChiLun : MonoBehaviour {
     
     void Update_Rotate(float fProgress)
     {
-        float fRotateSpeed = _fRotateSpeed;// Mathf.Lerp(0, _fRotateSpeed, fProgress);
+        float fRotateSpeed = Mathf.Lerp(0, _fRotateSpeed, fProgress);
         _body.transform.Rotate(0, 0, fRotateSpeed * Time.deltaTime);
     }
 
