@@ -71,12 +71,14 @@ public class Elem_HPHeart : MonoBehaviour {
         yield return StartCoroutine(ToolsUseful.OnFadeInOrOutValue(_fMoveYDur, 1f, 0f, (value) =>
         {
             ChangeSpriteAlpha(_spFull, value);
-        }));        
+        }));
+        ChangeSpriteAlpha(_spFull, 0);
         _spEmpty.transform.DOScale(Vector3.one, _fShowEmptyDur).SetDelay(_fShowEmptyDur/ 2);
         yield return StartCoroutine(ToolsUseful.OnFadeInOrOutValue(_fShowEmptyDur, 0f, 1f, (value) =>
         {
             ChangeSpriteAlpha(_spEmpty, value);
         }));
+        ChangeSpriteAlpha(_spEmpty, 1);
 
         _bIsPlaying = false;
     }
