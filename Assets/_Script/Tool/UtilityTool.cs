@@ -173,6 +173,23 @@ public class UtilityTool
         return pos;
     }
 
+    private static Fibonacci _fibnacci = null;
+    /// <summary>
+    /// 斐波那契螺旋线的路径点生成
+    /// </summary>
+    /// <param name="nCount">点的数量</param>
+    /// <param name="nScale">缩放等级</param>
+    /// <returns></returns>
+    public static Vector3[] FibbinacciSpiralPath(int nCount, int nScale = 1)
+    {
+        if (_fibnacci == null)
+        {
+            _fibnacci = new Fibonacci();
+        }
+        _fibnacci.Generate(nCount - 1, nScale); // -1因为这里要获得point数量，而不是cell数量
+        return _fibnacci.GetFibnacciPointPos().ToArray();
+    }
+
     /// <summary>
     /// 正多边形的点,至少为3个点
     /// </summary>
@@ -245,7 +262,7 @@ public class UtilityTool
             }
         }
         return res;
-    }
+    }    
     #endregion
 
     #region _color_
