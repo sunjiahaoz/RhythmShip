@@ -6,12 +6,12 @@ using sunjiahaoz.SteerTrack;
 using RUL;
 
 public class TEST : MonoBehaviour {
-    public Elem_SpriteAnim _anim;
+    public CameraShake _shake;
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.Home))
         {
-            _anim.Play();
+            _shake.DoShake();
         }
         if (Input.GetKey(KeyCode.End))
         {

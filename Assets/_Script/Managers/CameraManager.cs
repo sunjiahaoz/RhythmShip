@@ -10,6 +10,7 @@ public enum CameraAnchorPos
     LeftBottom,
 }
 public class CameraManager : MonoBehaviour {
+    public CameraShake _cShake;
     public Transform[] _anchors;    // 需要4个，按照CameraAnchorPos赋值
     void Awake()
     {
@@ -17,7 +18,7 @@ public class CameraManager : MonoBehaviour {
         {
             TagLog.LogError(LogIndex.Normal, "CameraManager需要4个Anchor!!!");
         }
-        GamingData.Instance.CamMgr = this;
+        GamingData.Instance.CamMgr = this;        
     }
 
     // 获取锚点

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace sunjiahaoz.AnimEffect
+namespace sunjiahaoz
 {
     /// <summary>
     /// 参考Thinksquirrel CameraShake

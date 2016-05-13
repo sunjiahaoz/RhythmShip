@@ -14,7 +14,13 @@ public class PlayerShip : BaseShip {
     void Start()
     {        
         OnThingCreate(null);
-    }    
+        _lifeCom._event._eventOnAddValue += _event__eventOnAddValue;
+    }   
+ 
+    void OnDestroy()
+    {
+        _lifeCom._event._eventOnAddValue -= _event__eventOnAddValue;
+    }
 #endregion
 
 #region _BaseShip_
@@ -29,5 +35,13 @@ public class PlayerShip : BaseShip {
         //_shooter.EquipFirePoint(GamingData.Instance.shipData.EquipedShootFirePoint);
     }
 #endregion    
+
+    void _event__eventOnAddValue(int nValue)
+    {
+        if (nValue < 0)
+        {
+            GamingData.Instance.CamMgr._cShake.DoShake();
+        }
+    }
 
 }
