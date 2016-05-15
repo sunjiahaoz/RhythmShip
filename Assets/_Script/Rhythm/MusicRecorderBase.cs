@@ -384,7 +384,7 @@ public class MusicRecorderBaseState_Play : FSMState<MusicRecorderBase, MusicReco
         UnityEngine.Object obj = ResourceManager.instance.RequestImediate(strFileName, GetRecordLoadConfigFolder(false));
         if (obj == null)
         {
-            TagLog.LogWarning(LogIndex.RecordRhythm, GetRecordLoadConfigFolder(false) + "中找不到" + strRecordConfig);            
+            TagLog.LogWarning(LogIndex.RecordRhythm, GetRecordLoadConfigFolder(false) + "中找不到" + strRecordConfig, obj);            
             entity.ChangeState(MusicRecorderBase.State.Stop);
             return false;
         }

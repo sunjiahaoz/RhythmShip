@@ -993,6 +993,7 @@ namespace sunjiahaoz
 
 #region _常量_
         public const int MaxIntCanUse = 2147483646;  // int.MaxValue == 2147483647 但实际用的时候会当-1用，所以这里使用它的前一个值
+        public const float GoldPointRadio = 0.618f; // 黄金比例分割点
 #endregion
     }
 }

@@ -12,6 +12,7 @@ using System.Collections;
 
 public class Skill_TT_Defender : PlayerShipSkillTriggerTypeBase {
     public SkillElem_Defender _prefabDefender;
+    public string _strCastSound = "BulletEffect7";
 
     protected override void CastSkill()
     {
@@ -19,5 +20,6 @@ public class Skill_TT_Defender : PlayerShipSkillTriggerTypeBase {
         SkillElem_Defender dfder = ObjectPoolController.Instantiate(_prefabDefender.gameObject, transform.position, Quaternion.identity).GetComponent<SkillElem_Defender>();
         dfder.gameObject.SetActive(true);
         dfder.InitDefend();
+        AudioController.Play(_strCastSound);
     }
 }
