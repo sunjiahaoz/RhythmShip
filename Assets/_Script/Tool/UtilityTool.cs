@@ -262,7 +262,30 @@ public class UtilityTool
             }
         }
         return res;
-    }    
+    }
+
+    /// <summary>
+    /// 生成爆炸分散点
+    /// 以某点为中心，以某随机距离为半径生成点
+    /// </summary>
+    /// <param name="posCenter">爆炸点</param>
+    /// <param name="fScatterRadiusMin">最短距离</param>
+    /// <param name="fScatterRadiusMax">最大距离</param>
+    /// <param name="nCount">生成点数量</param>
+    /// <returns></returns>
+    public static Vector3[] GenerateScatterPoint(Vector3 posCenter, float fScatterRadiusMin, float fScatterRadiusMax, int nCount)
+    {
+        Vector3[] resPos = new Vector3[nCount];
+        Segment2 sg2 = new Segment2();
+        Vector2 vecDir = Vector2.zero;
+        for (int i = 0; i < nCount; ++i)
+        {
+            vecDir = RUL.RulVec.RandUnitVector2();            
+            sg2.SetCenterDirectionExtent(posCenter, vecDir, RUL.Rul.RandFloat(fScatterRadiusMin, fScatterRadiusMax));
+            resPos[i] = sg2.P1;
+        }
+        return resPos;
+    }
     #endregion
 
     #region _color_
