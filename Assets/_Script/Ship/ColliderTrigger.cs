@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ColliderTrigger : MonoBehaviour {
+public class ColliderTrigger : MonoBehaviour {    
     public System.Action<GameObject> _actionTriggerEnter;
     public System.Action<GameObject> _actionTriggerStay;
     public System.Action<GameObject> _actionTriggerExit;

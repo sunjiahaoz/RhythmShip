@@ -72,6 +72,11 @@ public class BaseLifeCom : MonoBehaviour, ILife
         _nMaxLife = MaxValue;
     }
 
+    public virtual void ReSet()
+    {
+        _nCurLife = MaxValue;
+    }
+
     public virtual void AddValue(int offValue)
     {
         _nCurLife += offValue;

@@ -11,7 +11,7 @@ public class TEST : MonoBehaviour {
     {
         if (Input.GetKeyUp(KeyCode.Home))
         {
-            _shake.DoShake();
+            //_shake.DoShake();
         }
         if (Input.GetKey(KeyCode.End))
         {
