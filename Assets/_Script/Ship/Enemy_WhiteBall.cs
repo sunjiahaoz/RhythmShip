@@ -5,7 +5,7 @@ using sunjiahaoz;
 using Dest.Math;
 using DG.Tweening;
 
-public class Enemy_WhiteBall : BaseEnemyShip {
+public class Enemy_WhiteBall : FirePointRhythm {
 
     public Transform _trBody;
     public EffectParam _ScatterEffect;
@@ -15,9 +15,11 @@ public class Enemy_WhiteBall : BaseEnemyShip {
     public float _fSmallballCombineDest = 30;       // 与小球融合时的距离
     public int _nPtCount = 10;
     public float _fSmallBallScatterDur = 0.1f;
+    public float _fSrcScale = 5;
     
     List<Vector3> _lstScatterPoints = new List<Vector3>();
     List<Elem_SmallWhiteBall> _lstSmallBalls = new List<Elem_SmallWhiteBall>();
+    List<Elem_SmallWhiteBall> _lstWillDestroy = new List<Elem_SmallWhiteBall>();
     void GenerateScatterPoint(Vector3 posCenter, float fScatterRadiusMin, float fScatterRadiusMax, int nCount)
     {
         _lstScatterPoints.Clear();
@@ -29,11 +31,12 @@ public class Enemy_WhiteBall : BaseEnemyShip {
         _ScatterEffect._pos = transform.position;
         ShotEffect.Instance.Shot(_ScatterEffect);
         //_lstSmallBalls.Clear();
-        ClearSmallBalls();
+        //ClearSmallBalls();
 
         for (int i = 0; i < _lstScatterPoints.Count; ++i )
         {
-            GameObject go = ObjectPoolController.Instantiate(_PrefabSmallBall.gameObject, transform.position, Quaternion.identity);            
+            GameObject go = ObjectPoolController.Instantiate(_PrefabSmallBall.gameObject, transform.position, Quaternion.identity);
+            go.gameObject.SetActive(true);
             go.transform.localScale = Vector2.Lerp(Vector2.one * 0.5f, Vector2.one * 1.3f, Random.Range(0f, 1f));
             Elem_SmallWhiteBall sb = go.GetComponent<Elem_SmallWhiteBall>();
             _lstSmallBalls.Add(sb);
@@ -50,10 +53,11 @@ public class Enemy_WhiteBall : BaseEnemyShip {
     IEnumerator OnGather()
     {        
         while (_lstSmallBalls.Count > 0)
-        {
-            if (_lstSmallBalls[0]._lifeCom.CurValue <= 0)
+        {            
+            if (_lstSmallBalls[0] == null
+                || !_lstSmallBalls[0].gameObject.activeInHierarchy)
             {
-                OnInHale(_lstSmallBalls[0]);
+                _lstSmallBalls.RemoveAt(0);
                 continue;
             }
             Vector3 vecShake = Vector3.Lerp(new Vector3(0.5f, 0.5f, 0), Vector3.zero, (float)_lstSmallBalls.Count / (float)_lstScatterPoints.Count);
@@ -61,6 +65,9 @@ public class Enemy_WhiteBall : BaseEnemyShip {
             transform.DOShakeScale(0.1f, vecShake);
             yield return new WaitForSeconds(0.2f);
         }
+        transform.localScale = Vector3.one;
+        _lstSmallBalls.Clear();
+        ClearSmallBalls();
     }
 
     public void OnInHale(Elem_SmallWhiteBall smallball)
@@ -68,9 +75,10 @@ public class Enemy_WhiteBall : BaseEnemyShip {
         if (smallball != null)
         {
             _lstSmallBalls.Remove(smallball);
-            smallball._lifeCom._event._eventOnAddValue -= _event_OnSmallballHurted;            
-            ObjectPoolController.Destroy(smallball.gameObject);
-            _trBody.localScale = Vector3.Lerp(Vector3.one * 5, Vector3.one, (float)_lstSmallBalls.Count / (float)_lstScatterPoints.Count);
+            smallball._lifeCom._event._eventOnAddValue -= _event_OnSmallballHurted;
+            smallball.gameObject.SetActive(false);
+            _lstWillDestroy.Add(smallball);
+            _trBody.localScale = Vector3.Lerp(Vector3.one * _fSrcScale, Vector3.one, (float)_lstSmallBalls.Count / (float)_lstScatterPoints.Count);
         }
     }
 
@@ -82,17 +90,17 @@ public class Enemy_WhiteBall : BaseEnemyShip {
         }
 
         TagLog.Log(LogIndex.Enemy, "SmallBallHurted:" + nValue);
-
-        _lifeCom.AddValue(nValue);
     }
 
     void ClearSmallBalls()
     {
-        for (int i = 0; i < _lstSmallBalls.Count; i++)
+        for (int i = 0; i < _lstWillDestroy.Count; i++)
         {
-            _lstSmallBalls.Remove(_lstSmallBalls[i]);
-            _lstSmallBalls[i]._lifeCom._event._eventOnAddValue -= _event_OnSmallballHurted;
-            ObjectPoolController.Destroy(_lstSmallBalls[i].gameObject);
+            _lstWillDestroy[i]._lifeCom._event._eventOnAddValue -= _event_OnSmallballHurted;
+            if (_lstWillDestroy[i] != null)
+            {
+                ObjectPoolController.Destroy(_lstWillDestroy[i].gameObject);
+            }
         }
     }
 

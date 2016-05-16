@@ -7,7 +7,7 @@ using System.Collections;
 /// </summary>
 namespace sunjiahaoz
 {
-    public class ScrollEffectPoint : MonoBehaviour
+    public class ScrollEffectPos : MonoBehaviour
     {
         public Transform _trTarget;
         public float _perX = 0.8f;
