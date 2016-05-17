@@ -51,7 +51,10 @@ namespace sunjiahaoz.lianliankan
         void Init()
         {
             _lstEntity.Clear();
-            _llkControl.InitChessBoard(_nRowCount, _nColCount, _nTileTypeCount, CreateTileEntity);
+            if(!_llkControl.InitChessBoard(_nRowCount, _nColCount, _nTileTypeCount, CreateTileEntity))
+            {
+                TagLog.Log(0, "LianLianKanManager Init Failed !!!!!!!!!!!!!!!");
+            }
         }
 
         public LineRenderer _line;

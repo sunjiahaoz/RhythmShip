@@ -67,8 +67,13 @@ namespace sunjiahaoz.lianliankan
         }
 
         // 初始化棋盘
-        public void InitChessBoard(int nRowCount, int nColCount, int nTileTypeCount, System.Func<T> createTile)
+        public bool InitChessBoard(int nRowCount, int nColCount, int nTileTypeCount, System.Func<T> createTile)
         {
+            if (nRowCount % 2 != 0
+                || nColCount % 2 != 0)
+            {                
+                return false;
+            }
             _nRowCount = nRowCount;
             _nColCount = nColCount;
             _nTileTypeCount = nTileTypeCount;
@@ -117,6 +122,7 @@ namespace sunjiahaoz.lianliankan
             }
 
             _event.OnAfterInitChessBoardEvent();
+            return true;
         }
 
         T _lastSel = null;
@@ -185,22 +191,6 @@ namespace sunjiahaoz.lianliankan
             return false;
         }
 
-        //void DrawLine(BaseTile a, BaseTile b)
-        //{
-        //    int x, y;
-            
-        //    line.SetVertexCount(4);
-        //    line.SetWidth(0.01f, 0.01f);
-        //    line.SetPosition(0, a.transform.position);
-        //    x = otherPoint[0, 0];
-        //    y = otherPoint[0, 1];
-        //    line.SetPosition(1, imgArr[x, y].img.transform.position);
-        //    x = otherPoint[1, 0];
-        //    y = otherPoint[1, 1];
-        //    line.SetPosition(2, imgArr[x, y].img.transform.position);
-        //    line.SetPosition(3, b.transform.position);
-        //}
-
         /// <summary>
         /// 可以消除的方法
         /// </summary>
@@ -243,7 +233,7 @@ namespace sunjiahaoz.lianliankan
             x2 = b.Row;
             y2 = b.Line;
             int x_1, y_1, x_2, y_2;
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < (_nRowCount + 2); i++)
             {
                 x_1 = i;
                 y_1 = y1;
@@ -324,7 +314,7 @@ namespace sunjiahaoz.lianliankan
 
             int x_1, y_1, x_2, y_2;
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < (_nColCount + 2); i++)
             {
                 x_1 = x1;
                 y_1 = i;
