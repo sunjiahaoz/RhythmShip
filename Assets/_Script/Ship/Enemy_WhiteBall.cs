@@ -11,6 +11,7 @@ public class Enemy_WhiteBall : FirePointRhythm {
     public EffectParam _ScatterEffect;
     public Elem_SmallWhiteBall _PrefabSmallBall;
     public float _fScatterAreaRadius = 1f;   // 分散范围半径
+    public float _fScatterAreaMinRadius = 0f;   // 分散范围最小半径
     public float _fSmallballStartInhaleDest = 100;  // 快速吸小球时的距离
     public float _fSmallballCombineDest = 30;       // 与小球融合时的距离
     public int _nPtCount = 10;
@@ -30,8 +31,6 @@ public class Enemy_WhiteBall : FirePointRhythm {
         _trBody.localScale = Vector3.one;
         _ScatterEffect._pos = transform.position;
         ShotEffect.Instance.Shot(_ScatterEffect);
-        //_lstSmallBalls.Clear();
-        //ClearSmallBalls();
 
         for (int i = 0; i < _lstScatterPoints.Count; ++i )
         {
@@ -50,10 +49,11 @@ public class Enemy_WhiteBall : FirePointRhythm {
         yield return 0;
     }
 
+    // 自动收集
     IEnumerator OnGather()
     {        
         while (_lstSmallBalls.Count > 0)
-        {            
+        {
             if (_lstSmallBalls[0] == null
                 || !_lstSmallBalls[0].gameObject.activeInHierarchy)
             {
@@ -68,6 +68,21 @@ public class Enemy_WhiteBall : FirePointRhythm {
         transform.localScale = Vector3.one;
         _lstSmallBalls.Clear();
         ClearSmallBalls();
+    }
+
+    // 执行一次收集
+    void OneGatherShot()
+    {
+        if (_lstSmallBalls.Count <= 0)
+        {
+            transform.localScale = Vector3.one;
+            _lstSmallBalls.Clear();
+            ClearSmallBalls();
+            return;
+        }
+        Vector3 vecShake = Vector3.Lerp(new Vector3(0.5f, 0.5f, 0), Vector3.zero, (float)_lstSmallBalls.Count / (float)_lstScatterPoints.Count);
+        transform.DOMove(_lstSmallBalls[0].transform.position, 0.1f).SetEase(Ease.InOutCubic);
+        transform.DOShakeScale(0.1f, vecShake);
     }
 
     public void OnInHale(Elem_SmallWhiteBall smallball)
@@ -110,12 +125,13 @@ public class Enemy_WhiteBall : FirePointRhythm {
     {
         if (Input.GetKeyUp(KeyCode.Home))
         {
-            GenerateScatterPoint(transform.position, _fScatterAreaRadius/5f, _fScatterAreaRadius, _nPtCount);
+            GenerateScatterPoint(transform.position, _fScatterAreaMinRadius, _fScatterAreaRadius, _nPtCount);
             StartCoroutine(OnCreateSmallBall());
         }
         if (Input.GetKeyUp(KeyCode.End))
         {
-            StartCoroutine(OnGather());
+            OneGatherShot();
+            //StartCoroutine(OnGather());
         }
     }
 
@@ -124,6 +140,7 @@ public class Enemy_WhiteBall : FirePointRhythm {
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, _fScatterAreaRadius);
+        Gizmos.DrawWireSphere(transform.position, _fScatterAreaMinRadius);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, _fSmallballStartInhaleDest);
         Gizmos.color = Color.cyan;

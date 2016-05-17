@@ -5,8 +5,7 @@ namespace sunjiahaoz.lianliankan
     public class TileEntity : MonoBehaviour, IBaseTile
     {
         BaseTile _data = new BaseTile();
-        public tk2dSprite _body;
-        public tk2dTextMesh _tkTmpText;
+        public tk2dSprite _body;        
         
 #region _IBaseTile_
         public int ID
@@ -32,7 +31,7 @@ namespace sunjiahaoz.lianliankan
         public void SetID(int nId)
         {
             _data.SetID(nId);
-            _tkTmpText.text = nId.ToString();
+            _body.spriteId = _body.GetSpriteIdByName(nId.ToString());
         }
 
         public void SetState(TileState state)
