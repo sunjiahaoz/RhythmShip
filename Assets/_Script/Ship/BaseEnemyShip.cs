@@ -45,7 +45,7 @@ public class BaseEnemyShip : BaseShip{
     {
         for (int i = 0; i < _trigger.Length; ++i )
         {
-            _trigger[i].enabled = bOpen;
+            _trigger[i].SetEnable(bOpen);
         }
     }
 

@@ -23,6 +23,7 @@ public class GlobalGameManager : FSMMono<GlobalGameManager, GlobalGameManager.St
     }
 #endregion
 
+    [Header("标记之后可以直接进入BattleScene状态")]
     public bool bTest = false;
 
     void Start()
