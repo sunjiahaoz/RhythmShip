@@ -6,6 +6,10 @@ public class EnemyCreator_RandomArea : EnemyCreator {
     public Transform _trLeftPos;
     public Transform _trRightBottom;
 
+    // 是否在调用GetDir时使用固定的dir，即基本的Dir计算方式
+    // 如果为false就是通过随机的点进行方向计算
+    public bool _bFixDir = false;
+
     Vector3 _posRand = Vector3.zero;
 
     protected override void Awake()
@@ -17,6 +21,18 @@ public class EnemyCreator_RandomArea : EnemyCreator {
     {
         _posRand = GenerateRandomPos();
         base.Fire();
+    }
+
+    public override Vector3 GetDir()
+    {
+        if (!_bFixDir)
+        {
+            return base.GetDir();
+        }
+        else
+        {
+            return (base.GetCreatePos() - _trFirePointBodyPos.position).normalized;        
+        }
     }
 
     protected override Vector3 GetCreatePos()

@@ -40,6 +40,15 @@ public class BaseEnemyShip : BaseShip{
         base.OnThingCreate(fp);
     }
 
+    // ColliderTrigger的开关
+    public virtual void SwitchColliderTrigger(bool bOpen)
+    {
+        for (int i = 0; i < _trigger.Length; ++i )
+        {
+            _trigger[i].enabled = bOpen;
+        }
+    }
+
     void OnShipTriggerEnter(GameObject go)
     {
         if (ToolsUseful.CheckLayerContainedGo(_colliderLayer, go))

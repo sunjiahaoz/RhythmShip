@@ -99,6 +99,11 @@ public class RayController : MonoBehaviour
         float fLength = Vector3.Distance(targetPort.position, transform.position);
         PlayRayAppear(fLength, fWidth, fDur, ease, appearType, actionAppearEnd);
     }
+    public void PlayRayAppear(Vector3 dir, float fLength, float fWidth, float fDur, Ease ease = Ease.Linear, RayAppearType appearType = RayAppearType.H, System.Action actionAppearEnd = null)
+    {
+        ToolsUseful.LookRotate(transform, dir);        
+        PlayRayAppear(fLength, fWidth, fDur, ease, appearType, actionAppearEnd);
+    }
 
     // 激光收缩动画
     public void PlayRayDisappear(float fDur, Ease ease = Ease.Linear, RayDisappearType disappearType = RayDisappearType.V_ToLocal, System.Action actionDisappearEnd = null)
