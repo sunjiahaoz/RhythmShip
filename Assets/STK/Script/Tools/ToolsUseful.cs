@@ -340,6 +340,32 @@ namespace sunjiahaoz
         {
             return (to - from).normalized;
         }
+
+        /// <summary>
+        /// 设置body的朝向为看向trTarget        
+        /// </summary>
+        /// <param name="trBody"></param>
+        /// <param name="trTarget"></param>
+        public static void LookRotate(Transform trBody, Transform trTarget, Vector3 fromDir)
+        {
+            Vector3 dir = LookDir(trBody.position, trTarget.position);
+            LookRotate(trBody, dir, fromDir);
+            //trBody.rotation = Quaternion.FromToRotation(fromDir, dir);
+            //Debug.Log(trBody.rotation.eulerAngles);
+        }
+        public static void LookRotate(Transform trBody, Transform trTarget)
+        {
+            LookRotate(trBody, trTarget, Vector3.up);
+        }
+        public static void LookRotate(Transform trBody, Vector3 dir, Vector3 fromDir)
+        {
+            trBody.rotation = Quaternion.FromToRotation(fromDir, dir);
+        }
+        public static void LookRotate(Transform trBody, Vector3 dir)
+        {
+            LookRotate(trBody, dir, Vector3.up);
+        }
+
         /// <summary>
         /// 详见一个它的重载函数。
         /// 只不过Rect的描述变成了一个左上角坐标以及宽高。
