@@ -135,6 +135,12 @@ public class GameManager_Start : FSMState<GameBattleManager, GameBattleManager.S
         base.Enter();
         TagLog.Log(LogIndex.GameManager, "Start Enter 开始游戏！！！");        
         entity.CurAO = AudioController.PlayMusic(GamingData.Instance.sceneConfig._strMusicName);
+        if (entity.CurAO == null)
+        {
+            TagLog.LogError(LogIndex.GameManager, "找不到音乐:" + GamingData.Instance.sceneConfig._strMusicName);
+            entity.ChangeState(GameBattleManager.State.End);
+            return;
+        }
         entity.CurAO.completelyPlayedDelegate += OnCurAOComplete;
 
         CommonUIManager.Instance.ShowUI(ID_FRAME.ID_FramePlayerShip);
@@ -144,7 +150,10 @@ public class GameManager_Start : FSMState<GameBattleManager, GameBattleManager.S
     public override void Exit()
     {
         base.Exit();
-        entity.CurAO.completelyPlayedDelegate -= OnCurAOComplete;
+        if (entity.CurAO != null)
+        {
+            entity.CurAO.completelyPlayedDelegate -= OnCurAOComplete;
+        }        
     }
 
     void OnCurAOComplete(AudioObject audioObject)
