@@ -364,15 +364,20 @@ public class MusicRecorderBaseState_Play : FSMState<MusicRecorderBase, MusicReco
             }
             else
             {
-                for (int i = 0; i < entity.RhythmMgr.Count(); i++)
-                {
-                    if (entity.CurAudio.audioTime < entity.RhythmMgr.GetPointByIndex(i))
-                    {
-                        _nCurCheckIndex = i;
-                        break;
-                    }
-                }
+                JumpRhythmIndexToNow();
             }            
+        }
+    }
+    
+    void JumpRhythmIndexToNow()
+    {
+        for (int i = 0; i < entity.RhythmMgr.Count(); i++)
+        {
+            if (entity.CurAudio.audioTime < entity.RhythmMgr.GetPointByIndex(i))
+            {
+                _nCurCheckIndex = i;
+                break;
+            }
         }
     }
 

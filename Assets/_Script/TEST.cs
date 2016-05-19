@@ -4,14 +4,20 @@ using System.Collections.Generic;
 using sunjiahaoz;
 using sunjiahaoz.SteerTrack;
 using RUL;
+using DG.Tweening;
 
 public class TEST : MonoBehaviour {
     public CameraShake _shake;
+
+    float _fTmpValue = 0;
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.Home))
         {
-            //_shake.DoShake();
+            DOTween.To(_fTmpValue =>
+            {
+
+            }, 0, 100, 2f);
         }
         if (Input.GetKey(KeyCode.End))
         {

@@ -1,4 +1,12 @@
-﻿using UnityEngine;
+﻿/*
+*Com_RandomSteerDir
+*by sunjiahaoz 2016-5-19
+*
+*本对象必须有SteeringDirLine组件
+ *然后调用SetRandomDir之后会给dir赋值
+ *调用SetRandomDir的时机交给外面
+*/
+using UnityEngine;
 using System.Collections;
 using sunjiahaoz.SteerTrack;
 
