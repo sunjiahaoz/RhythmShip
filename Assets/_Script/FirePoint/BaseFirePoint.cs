@@ -16,9 +16,16 @@ public class IFirePoint : MonoBehaviour
 }
 
 public class BaseFireThing : MonoBehaviour
-{    
+{
+    public bool _bLockZ = false;
     //public virtual void OnThingCreate() { }
-    public virtual void OnThingCreate(IFirePoint pt) { }
+    public virtual void OnThingCreate(IFirePoint pt) 
+    { 
+        if (_bLockZ)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+        }
+    }
     public virtual void OnThingDestroy() { }
 }
 
@@ -30,6 +37,7 @@ public class BaseFirePoint : IFirePoint
     public bool _bCreateBulletAfterAnim = false;   // 先播放动画，动画完成后再创建对象
     public Transform _trFirePointBodyPos;           // 身体位置，与trCreatePos可以得出朝向
     public Transform _trCreatePos;                      // 创建出的对象的初始位置
+    public Transform _trDirPos; // bodyPos与dirPos决定方向，如果为null则使用createPos
 
     public ComGetCreatePos _comGetCreatePos;
 
@@ -51,7 +59,7 @@ public class BaseFirePoint : IFirePoint
     // 获得炮筒朝向
     public override Vector3 GetDir()
     {
-        return (GetCreatePos() - _trFirePointBodyPos.position).normalized;
+        return (_trDirPos.position - _trFirePointBodyPos.position).normalized;
     }
     #endregion
 
@@ -64,6 +72,10 @@ public class BaseFirePoint : IFirePoint
         if (_trCreatePos == null)
         {
             _trCreatePos = transform;
+        }
+        if (_trDirPos == null)
+        {
+            _trDirPos = _trCreatePos;
         }
     }
 
