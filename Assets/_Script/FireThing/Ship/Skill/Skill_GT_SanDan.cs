@@ -29,8 +29,12 @@ public class Skill_GT_SanDan : PlayerShipSkillGuideTypeBase
         }
 
         _bIsAnimRunning = true;
-        _firePoint._actionComplete = OnNotEnouthAnimEnd;
-        _firePoint.Run();
+        if (_firePoint != null)
+        {
+            _firePoint._actionComplete = OnNotEnouthAnimEnd;
+            _firePoint.Run();
+        }
+        
         //StartCoroutine(OnNotEnoughAnim());
     }
 
