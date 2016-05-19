@@ -5,6 +5,35 @@ using sunjiahaoz;
 using Dest.Math;
 using RUL;
 
+[System.Serializable]
+public class FloatRange
+{
+    public float Min = 0;
+    public float Max = 0;
+    public float RandomValue
+    {
+        get
+        {
+            return UnityEngine.Random.Range(Min, Max);
+        }
+    }
+}
+
+[System.Serializable]
+public class IntRange
+{
+    public int Min = 0;
+    public int Max = 0;
+
+    public int RandomValue
+    {
+        get
+        {
+            return UnityEngine.Random.Range(Min, Max);
+        }
+    }
+}
+
 public class UtilityTool
 {
     #region _Pos_
