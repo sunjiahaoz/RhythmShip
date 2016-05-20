@@ -79,8 +79,13 @@ public class EnemySimulateFloat : EnemyRhythmRecordShip {
             }
             return;
         }
-        TagLog.Log(LogIndex.Enemy, "OneShotIndex:" + _nPathIndex);
-        _twnerMove = transform.DOMove(_path[_nPathIndex], _fMovePerPointDur);
+        //TagLog.Log(LogIndex.Enemy, "OneShotIndex:" + _nPathIndex);
+        float fDur = GetNextRhythmPointTimeInterval(nIndex);
+        if (fDur <= 0)
+        {
+            fDur = _fMovePerPointDur;
+        }
+        _twnerMove = transform.DOMove(_path[_nPathIndex], fDur);
         _nPathIndex++;
         if (_bDestroyWhenEnd
             && _nPathIndex >= _path.Length)

@@ -36,7 +36,7 @@ public class RhythmDataMgrBase
     public virtual void Add(float point) { }
 
     public virtual int Count() { return 0; }
-    public virtual float GetPointByIndex(int nIndex, int nExtraData = 0) { return 0f; }
+    public virtual float GetPointByIndex(int nIndex, int nExtraData = 0) { return 0f; }    
 
     // 生成用于保存到文件的内容
     public virtual string GenerateConfig()

@@ -66,7 +66,14 @@ public class EnemyRhythmRecordShip : BaseEnemyShip {
         {
             EventDelegate.Execute(_lstRhythmPointEvent);
         }
-        //TagLog.Log(LogIndex.Enemy, "OnPlayOneShot:" + gameObject.name + " index:" + nIndex, this);
+        // 下一个节奏点的时间
+        //float fNextTime = _record.RhythmMgr.GetPointByIndex(nIndex + 1);
+        //if (fNextTime > 0)
+        //{
+        //    TagLog.Log(LogIndex.Enemy, "OnPlayOneShot:" + gameObject.name + " index:" + nIndex + " 下一个点时间:" + fNextTime, this);   
+        //}
+
+        //TagLog.Log(LogIndex.Enemy, "OnPlayOneShot:" + gameObject.name + " index:" + nIndex , this);
     }
 
     protected virtual void OnPlayEnd()
@@ -78,4 +85,22 @@ public class EnemyRhythmRecordShip : BaseEnemyShip {
     {
         _record.PlayOrRecord(GamingData.Instance.gameBattleManager.CurAO);
     }
+
+#region _Tools_
+    // 获得某个节奏点的时间
+    protected float GetRhythmPointTime(int nIndex)
+    {
+        return _record.RhythmMgr.GetPointByIndex(nIndex);
+    }
+    // 获得当前节奏点与下一个节奏点之间的时间差，如果没有下一个节奏点了，返回-1
+    protected float GetNextRhythmPointTimeInterval(int nCurIndex)
+    {
+        float fInterval = GetRhythmPointTime(nCurIndex + 1) - GetRhythmPointTime(nCurIndex);
+        if (fInterval < 0)
+        {
+            return -1;
+        }
+        return fInterval;
+    }
+#endregion
 }

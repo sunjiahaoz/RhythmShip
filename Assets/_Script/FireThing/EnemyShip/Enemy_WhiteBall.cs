@@ -108,14 +108,22 @@ public class Enemy_WhiteBall : EnemyRhythmRecordShip {
         TagLog.Log(LogIndex.Enemy, "SmallBallHurted:" + nValue);
     }
 
-    void ClearSmallBalls()
+    // 移除所有小球，可以指定使用小球的OnThingDestroy来移除还是直接清空
+    void ClearSmallBalls(bool bOnThingDestroy = false)
     {
         for (int i = 0; i < _lstWillDestroy.Count; i++)
         {
             _lstWillDestroy[i]._lifeCom._event._eventOnAddValue -= _event_OnSmallballHurted;
             if (_lstWillDestroy[i] != null)
             {
-                ObjectPoolController.Destroy(_lstWillDestroy[i].gameObject);
+                if (bOnThingDestroy)
+                {
+                    _lstWillDestroy[i].OnThingDestroy();
+                }
+                else
+                {
+                    ObjectPoolController.Destroy(_lstWillDestroy[i].gameObject);
+                }
             }
         }
     }
@@ -124,6 +132,12 @@ public class Enemy_WhiteBall : EnemyRhythmRecordShip {
     {
         base.OnPlayOneShot(nIndex);
         OneGatherShot();
+    }
+
+    public override void OnThingDestroy()
+    {
+        base.OnThingDestroy();
+        ClearSmallBalls(true);
     }
 
     ////TEST CODE ↓↓↓↓↓↓↓///////////////////////////////////////////////////////////////////////
