@@ -86,7 +86,7 @@ public class EnemyRhythmRecordShip : BaseEnemyShip {
         _record.PlayOrRecord(GamingData.Instance.gameBattleManager.CurAO);
     }
 
-#region _Tools_
+#region _Tools_    
     // 获得某个节奏点的时间
     protected float GetRhythmPointTime(int nIndex)
     {

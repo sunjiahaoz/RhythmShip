@@ -8,6 +8,8 @@ using DG.Tweening;
 
 public class EnemyShip_Rail : BaseRhythmEnemyShip
 {
+    [Header("====EnemyShip_Rail====")]
+    public EffectParam _PathPointShowEffect;
     public bool _bDebugDraw = true;
     public ObjectAnim_FollowPath _trail;
     public Transform _disappearHead;
@@ -17,6 +19,13 @@ public class EnemyShip_Rail : BaseRhythmEnemyShip
     public float _fLineColliderSize = 100;
     public float _fTailDur = 1f;        // 路径完整之后持续多长时间死掉
     public float _fDiappearDur = 1.5f;  // 死掉动画持续时间
+
+    [Header("只生成水平rail的概率")]
+    [Range(0f, 1f)]
+    public float _fOnlyHProb = 0.5f;
+    [Header("起始点是左边或上边的概率")]
+    [Range(0f, 1f)]
+    public float _fOnlyStartIsLeftTopProb = 0.5f;
 
     static Vector3 _leftTop = Vector3.zero;
     static Vector3 _rightBottom = Vector3.zero;
@@ -55,15 +64,24 @@ public class EnemyShip_Rail : BaseRhythmEnemyShip
         // 计算路径点
         _lstPoses = UtilityTool.GenerateRail(
             _leftTop, _rightBottom, 
-            _fMinIntervalDistWidth, _fMinIntervalDistHeight, 
-            Random.Range(0, 100) > 50 ? true : false,
-            Random.Range(0, 100) > 50 ? true : false
+            _fMinIntervalDistWidth, _fMinIntervalDistHeight,
+            Random.Range(0f, 1f) < _fOnlyHProb ? false : true,
+            Random.Range(0f, 1f) < _fOnlyStartIsLeftTopProb ? true : false
             );        
         // 执行路径点
         _trail.transform.position = _lstPoses[0];        
         _trail._path = _lstPoses;
         _trail._actionWayPointChange = OnWayPointChange;
         _trail.Run();
+        // 路径点提示特效
+        if (_PathPointShowEffect._strName.Length > 0)
+        {
+            for (int i = 0; i < _lstPoses.Length; ++i)
+            {
+                _PathPointShowEffect._pos = _lstPoses[i];
+                ShotEffect.Instance.Shot(_PathPointShowEffect);
+            }
+        }        
     }
 
     void OnWayPointChange(int nIndex)

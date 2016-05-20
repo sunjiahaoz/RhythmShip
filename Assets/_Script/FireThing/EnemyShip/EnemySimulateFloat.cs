@@ -33,6 +33,21 @@ public class EnemySimulateFloat : EnemyRhythmRecordShip {
     public override void OnThingCreate(IFirePoint fp)
     {
         base.OnThingCreate(fp);
+    }
+
+    public override void OnThingDestroy()
+    {
+        base.OnThingDestroy();
+        if (_twnerMove != null)
+        {
+            _twnerMove.Kill();
+            _twnerMove = null;
+        }
+    }
+
+    public void GeneratePath()
+    {
+        
         // 如果没有开始位置，就以自身为开始位置
         if (_trStartPos == null)
         {
@@ -55,16 +70,6 @@ public class EnemySimulateFloat : EnemyRhythmRecordShip {
         transform.position = _trStartPos.position;
         _path = UtilityTool.GenerateSimulateFloatPath(_trStartPos.position, _trGoalPos.position, _pointCountRange.RandomValue, _HOffRange.Min, _HOffRange.Max);
         _nPathIndex = 1;    // 0是自身位置
-    }
-
-    public override void OnThingDestroy()
-    {
-        base.OnThingDestroy();
-        if (_twnerMove != null)
-        {
-            _twnerMove.Kill();
-            _twnerMove = null;
-        }
     }
 
     int _nPathIndex = 0;

@@ -14,17 +14,45 @@ namespace sunjiahaoz
 
         public bool _bDebugDraw = true;
 
+        public System.Action _actionComplete = null;
+
         public override void Run()
         {
             transform.localPosition = _vecStart;
             //iTween.ScaleTo(gameObject, iTween.Hash("scale", _vecGoalScale, "time", _fDuration, "easetype", _type, "looptype", _loopType));
-            iTween.MoveTo(gameObject, iTween.Hash("ignoretimescale", _bIgnoreTimeScale, "position", _vecGoal, "islocal", true, "delay", _fDelay, "time", _fDuration, "easetype", _type, "looptype", _loopType));
+            iTween.MoveTo(gameObject, iTween.Hash(
+                "ignoretimescale", _bIgnoreTimeScale, 
+                "position", _vecGoal, 
+                "islocal", true, 
+                "delay", _fDelay, 
+                "time", _fDuration, 
+                "easetype", _type, 
+                "looptype", _loopType,
+                "oncomplete", "OnMoveAnimComplete",
+                "oncompletetarget", gameObject));
         }
 
         public void RunBack()
         {
             transform.localPosition = _vecGoal;            
-            iTween.MoveTo(gameObject, iTween.Hash("ignoretimescale", _bIgnoreTimeScale, "position", _vecStart, "islocal", true, "delay", _fDelay, "time", _fDuration, "easetype", _type, "looptype", _loopType));
+            iTween.MoveTo(gameObject, iTween.Hash(
+                "ignoretimescale", _bIgnoreTimeScale, 
+                "position", _vecStart, 
+                "islocal", true, 
+                "delay", _fDelay, 
+                "time", _fDuration, 
+                "easetype", _type, 
+                "looptype", _loopType,
+                "oncomplete", "OnMoveAnimComplete",
+                "oncompletetarget", gameObject));
+        }
+
+        void OnMoveAnimComplete()
+        {
+            if (_actionComplete != null)
+            {
+                _actionComplete();
+            }
         }
 
         void OnDrawGizmos()

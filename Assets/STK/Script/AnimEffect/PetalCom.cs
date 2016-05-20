@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿/*
+PetalCom
+By: @sunjiahaoz, 2016-5-20
+
+ * 空中漂浮的花瓣模拟
+ * 需要配合向下移动的组件可以实现一边模拟被风吹水平移动以及旋转，一边向下坠落
+*/
+using UnityEngine;
 using System.Collections;
 using DG.Tweening;
 
@@ -8,14 +15,14 @@ namespace sunjiahaoz
     {
         [Header("在start时就执行")]
         public bool _bStart = false;
-        public tk2dSprite _cdBody;
+        public Transform _cdBody;
         [Header("body的Scale随机范围")]
         public FloatRange _bodyScale;        
 
         void Start()
         {
             float fScale = _bodyScale.RandomValue;
-            _cdBody.transform.localScale = new Vector3(fScale, fScale, 1);
+            _cdBody.localScale = new Vector3(fScale, fScale, 1);
             if (_bStart)
             {
                 StartMove();
@@ -62,7 +69,7 @@ namespace sunjiahaoz
         public void StopMove()
         {
             transform.DOKill();
-            _cdBody.transform.DOKill();
+            _cdBody.DOKill();
         }
 
         [HideInInspector]
@@ -93,7 +100,7 @@ namespace sunjiahaoz
         {
             TweenParams param = new TweenParams();
             float fAngle = Random.Range(-360, 360);
-            _cdBody.transform.DORotate(new Vector3(0, 0, fAngle), fDur).SetEase(Ease.Linear).OnComplete(() => 
+            _cdBody.DORotate(new Vector3(0, 0, fAngle), fDur).SetEase(Ease.Linear).OnComplete(() => 
             {
                 FloatType_Rotate(Random.Range(_fRotateDurMin, _fRotateDurMax));
             });
