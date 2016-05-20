@@ -5,7 +5,7 @@ using sunjiahaoz;
 using Dest.Math;
 using DG.Tweening;
 
-public class Enemy_WhiteBall : FirePointRhythm {
+public class Enemy_WhiteBall : EnemyRhythmRecordShip {
 
     public Transform _trBody;
     public EffectParam _ScatterEffect;
@@ -85,6 +85,7 @@ public class Enemy_WhiteBall : FirePointRhythm {
         transform.DOShakeScale(0.1f, vecShake);
     }
 
+    // 由SmallWhiteBall调用
     public void OnInHale(Elem_SmallWhiteBall smallball)
     {
         if (smallball != null)
@@ -117,6 +118,12 @@ public class Enemy_WhiteBall : FirePointRhythm {
                 ObjectPoolController.Destroy(_lstWillDestroy[i].gameObject);
             }
         }
+    }
+
+    protected override void OnPlayOneShot(int nIndex)
+    {
+        base.OnPlayOneShot(nIndex);
+        OneGatherShot();
     }
 
     ////TEST CODE ↓↓↓↓↓↓↓///////////////////////////////////////////////////////////////////////
