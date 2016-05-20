@@ -17,6 +17,7 @@ public class Enemy_WhiteBall : EnemyRhythmRecordShip {
     public int _nPtCount = 10;
     public float _fSmallBallScatterDur = 0.1f;
     public float _fSrcScale = 5;
+    public int _nScaleHurtValue = 10;   // 小球摧毁后对其造成的伤害会对本体造成伤害，这个伤害的倍数
     
     List<Vector3> _lstScatterPoints = new List<Vector3>();
     List<Elem_SmallWhiteBall> _lstSmallBalls = new List<Elem_SmallWhiteBall>();
@@ -26,7 +27,7 @@ public class Enemy_WhiteBall : EnemyRhythmRecordShip {
         _lstScatterPoints.Clear();
         _lstScatterPoints.AddRange(UtilityTool.GenerateScatterPoint(posCenter, fScatterRadiusMin, fScatterRadiusMax, nCount));
     }
-    IEnumerator OnCreateSmallBall()
+    IEnumerator OnCreateSmallBall(bool bDestroyImm = false)
     {
         _trBody.localScale = Vector3.one;
         _ScatterEffect._pos = transform.position;
@@ -47,6 +48,11 @@ public class Enemy_WhiteBall : EnemyRhythmRecordShip {
             sb._lifeCom._event._eventOnAddValue += _event_OnSmallballHurted;
         }
         yield return 0;
+        if (bDestroyImm)
+        {
+            yield return new WaitForSeconds(1);
+            OnThingDestroy();
+        }
     }
 
     // 自动收集
@@ -73,16 +79,33 @@ public class Enemy_WhiteBall : EnemyRhythmRecordShip {
     // 执行一次收集
     void OneGatherShot()
     {
+        if (_bIsInDestroying)
+        {
+            return;
+        }
+
         if (_lstSmallBalls.Count <= 0)
         {
+            TagLog.Log(LogIndex.Enemy, "小白球收集完毕！！！！");
             transform.localScale = Vector3.one;
             _lstSmallBalls.Clear();
             ClearSmallBalls();
+
+            GenerateScatterPoint(transform.position, _fScatterAreaMinRadius, _fScatterAreaRadius, _nPtCount);
+            StartCoroutine(OnCreateSmallBall());
             return;
         }
         Vector3 vecShake = Vector3.Lerp(new Vector3(0.5f, 0.5f, 0), Vector3.zero, (float)_lstSmallBalls.Count / (float)_lstScatterPoints.Count);
-        transform.DOMove(_lstSmallBalls[0].transform.position, 0.1f).SetEase(Ease.InOutCubic);
-        transform.DOShakeScale(0.1f, vecShake);
+        try
+        {
+            transform.DOMove(_lstSmallBalls[0].transform.position, 0.1f).SetEase(Ease.InOutCubic);
+            transform.DOShakeScale(0.1f, vecShake);
+        }
+        catch (System.Exception ex)
+        {
+            TagLog.LogWarning(LogIndex.Enemy, "出错喽："+ex.Message);
+            OnThingDestroy();
+        }
     }
 
     // 由SmallWhiteBall调用
@@ -98,6 +121,15 @@ public class Enemy_WhiteBall : EnemyRhythmRecordShip {
         }
     }
 
+    public void OnSmallBallThingDestroy(Elem_SmallWhiteBall smallball)
+    {
+        if (smallball != null)
+        {
+            _lstSmallBalls.Remove(smallball);
+            smallball._lifeCom._event._eventOnAddValue -= _event_OnSmallballHurted;
+        }        
+    }
+
     void _event_OnSmallballHurted(int nValue)
     {
         if (nValue >= 0)
@@ -105,7 +137,8 @@ public class Enemy_WhiteBall : EnemyRhythmRecordShip {
             return;
         }
 
-        TagLog.Log(LogIndex.Enemy, "SmallBallHurted:" + nValue);
+        _lifeCom.AddValue(nValue * _nScaleHurtValue);
+        //TagLog.Log(LogIndex.Enemy, "SmallBallHurted:" + nValue);
     }
 
     // 移除所有小球，可以指定使用小球的OnThingDestroy来移除还是直接清空
@@ -125,7 +158,31 @@ public class Enemy_WhiteBall : EnemyRhythmRecordShip {
                     ObjectPoolController.Destroy(_lstWillDestroy[i].gameObject);
                 }
             }
+        } 
+    }
+
+    bool _bIsInDestroying = false;
+    IEnumerator OnThingDestoyProcess()
+    {
+        _bIsInDestroying = true;
+        for (int i = 0; i < _lstSmallBalls.Count; ++i )
+        {
+            _lstWillDestroy.Add(_lstSmallBalls[i]);
         }
+
+        for (int i = 0; i < _lstWillDestroy.Count; i++)
+        {
+            _lstWillDestroy[i]._lifeCom._event._eventOnAddValue -= _event_OnSmallballHurted;
+            if (_lstWillDestroy[i] != null)
+            {
+                _lstWillDestroy[i].OnThingDestroy();
+                yield return 0;                
+            }
+        }
+        _lstSmallBalls.Clear();
+        _lstWillDestroy.Clear();
+        base.OnThingDestroy();
+        _bIsInDestroying = false;
     }
 
     protected override void OnPlayOneShot(int nIndex)
@@ -134,10 +191,16 @@ public class Enemy_WhiteBall : EnemyRhythmRecordShip {
         OneGatherShot();
     }
 
+    public override void OnThingCreate(IFirePoint fp)
+    {
+        base.OnThingCreate(fp);
+        GenerateScatterPoint(transform.position, _fScatterAreaMinRadius, _fScatterAreaRadius, _nPtCount);
+        StartCoroutine(OnCreateSmallBall());
+    }
+
     public override void OnThingDestroy()
     {
-        base.OnThingDestroy();
-        ClearSmallBalls(true);
+        StartCoroutine(OnThingDestoyProcess());
     }
 
     ////TEST CODE ↓↓↓↓↓↓↓///////////////////////////////////////////////////////////////////////

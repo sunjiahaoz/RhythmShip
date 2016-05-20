@@ -85,8 +85,8 @@ public class Elem_SmallWhiteBall : BaseEnemyShip
 
     public override void OnThingDestroy()
     {
+        parentBall.OnSmallBallThingDestroy(this);
         base.OnThingDestroy();
-        Debug.LogWarning("<color=orange>[Warning]</color>---" + "woca !!!!!!!!!!!!!!!!");
     }
 }
 
