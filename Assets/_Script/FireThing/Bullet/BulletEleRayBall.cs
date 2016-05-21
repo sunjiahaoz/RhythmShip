@@ -21,6 +21,7 @@ public class BulletEleRayBall : BaseBullet {
     public Ease _rayAppearEase = Ease.Linear;
     public RayAppearType _rayAppearType = RayAppearType.H;
     public FloatRange _rotateRange;
+    public string _strAudioId = "";
     [Header("消失参数")]
     public float _fDisappearDur = 0.2f;
     public Ease _rayDisappearEase = Ease.Linear;
@@ -33,10 +34,15 @@ public class BulletEleRayBall : BaseBullet {
         _ray.gameObject.SetActive(false);
         transform.localScale = Vector3.one;
         StartCoroutine(OnProgress(fp.GetDir()));
-    }    
+    }
     
     IEnumerator OnProgress(Vector3 dir)
-    {        
+    {
+        // 声音
+        if (_strAudioId.Length > 0)
+        {
+            AudioController.Play(_strAudioId);
+        }
         // 先移动到一个随机点
             // 生成随机点
         Vector3 posOff = dir * _moveToTargetDest.RandomValue;
@@ -45,7 +51,7 @@ public class BulletEleRayBall : BaseBullet {
             // sacle扩大
         transform.DOScale(Vector3.one * _fSrcScale, _fScaleDur).SetEase(_easeScale);
         yield return new WaitForSeconds(_fScaleDur);
-        // 展开
+        // 展开            
             // 随机方向
         Vector3 rayDir = RUL.RulVec.RandUnitVector2();
         _ray.gameObject.SetActive(true);
