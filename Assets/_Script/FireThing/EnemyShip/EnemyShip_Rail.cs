@@ -6,12 +6,12 @@ using sunjiahaoz.SteerTrack;
 using RUL;
 using DG.Tweening;
 
-public class EnemyShip_Rail : BaseRhythmEnemyShip
+public class EnemyShip_Rail : EnemyRhythmRecordShip
 {
     [Header("====EnemyShip_Rail====")]
     public EffectParam _PathPointShowEffect;
     public bool _bDebugDraw = true;
-    public ObjectAnim_FollowPath _trail;
+    public Transform _trail;
     public Transform _disappearHead;
     public AutoLineColliderCom[] _lineCollider;
 
@@ -33,24 +33,45 @@ public class EnemyShip_Rail : BaseRhythmEnemyShip
     static float _fMinIntervalDistHeight = 0;
 
     Vector3[] _lstPoses = null;
+    float[] _pointInterval = null;
     SplineTrailRenderer _trailRenderer;
     
     protected override void Awake()
     {
-        base.Awake();
+        base.Awake();                
+        _trailRenderer = _trail.GetComponent<SplineTrailRenderer>();
+        if (!_bRecord)
+        {
+            InitCalcData();
+        }
+    }
+
+    protected override void Start()
+    {
+        base.Start();        
+        if (_bRecord)
+        {
+            InitCalcData();
+        }
+    }
+
+    void InitCalcData()
+    {
         _leftTop = GamingData.Instance.CamMgr.GetAnchorPos(CameraAnchorPos.LeftTop).position;
         _rightBottom = GamingData.Instance.CamMgr.GetAnchorPos(CameraAnchorPos.RightBottom).position;
-        _fMinIntervalDistWidth = GamingData.Instance.CamMgr.GetWidthDistance() / 6;
-        _fMinIntervalDistHeight = GamingData.Instance.CamMgr.GetHeightDistance() / 6;
-        _trailRenderer = _trail.GetComponent<SplineTrailRenderer>();
+        _fMinIntervalDistWidth = GamingData.Instance.CamMgr.GetWidthDistance() / 3;
+        _fMinIntervalDistHeight = GamingData.Instance.CamMgr.GetHeightDistance() / 3;
     }
     
     public override void OnThingCreate(IFirePoint creator)
     {
         base.OnThingCreate(creator);
-        RunTail();
-    }
-
+        if (!_bRecord)
+        {
+            RunTail();
+        }        
+    }    
+    
     public void RunTail()
     {
         // 重置
@@ -67,21 +88,57 @@ public class EnemyShip_Rail : BaseRhythmEnemyShip
             _fMinIntervalDistWidth, _fMinIntervalDistHeight,
             Random.Range(0f, 1f) < _fOnlyHProb ? false : true,
             Random.Range(0f, 1f) < _fOnlyStartIsLeftTopProb ? true : false
-            );        
-        // 执行路径点
-        _trail.transform.position = _lstPoses[0];        
-        _trail._path = _lstPoses;
-        _trail._actionWayPointChange = OnWayPointChange;
-        _trail.Run();
-        // 路径点提示特效
-        if (_PathPointShowEffect._strName.Length > 0)
+            );
+        _trail.position = _lstPoses[0];
+        _bIsInRunRail = false;
+
+        float fInterval = GetNextPointToCurAoTimeInterval() - 0.6f; // 魔数，这个特效的时间
+
+        vp_Timer.In(fInterval < 0 ? 0 : fInterval, () => 
         {
-            for (int i = 0; i < _lstPoses.Length; ++i)
+            // 路径点提示特效
+            if (_PathPointShowEffect._strName.Length > 0)
             {
-                _PathPointShowEffect._pos = _lstPoses[i];
+                _PathPointShowEffect._pos = _lstPoses[0];
                 ShotEffect.Instance.Shot(_PathPointShowEffect);
+                //for (int i = 0; i < _lstPoses.Length; ++i)
+                //{
+                //    _PathPointShowEffect._pos = _lstPoses[i];
+                //    ShotEffect.Instance.Shot(_PathPointShowEffect);
+                //}
             }
-        }        
+        });        
+    }
+
+    protected override void OnPlayOneShot(int nIndex)
+    {
+        base.OnPlayOneShot(nIndex);
+        if (_bIsInRunRail
+            || _bRecord)
+        {
+            return;
+        }
+
+        _pointInterval = new float[_lstPoses.Length - 1];
+        for (int i = 0; i < _pointInterval.Length; ++i)
+        {
+            _pointInterval[i] = GetNextRhythmPointTimeInterval(nIndex + i);
+        }
+        StartCoroutine(OnRunRail());
+    }
+
+    bool _bIsInRunRail = false;
+    IEnumerator OnRunRail()
+    {
+        _bIsInRunRail = true;       
+
+        // 执行路径点        
+        for (int i = 1; i < _lstPoses.Length; ++i )
+        {
+            _trail.DOMove(_lstPoses[i], _pointInterval[i - 1]);
+            yield return new WaitForSeconds(_pointInterval[i - 1]);
+            OnWayPointChange(i);
+        }
     }
 
     void OnWayPointChange(int nIndex)
