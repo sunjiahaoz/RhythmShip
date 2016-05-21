@@ -25,8 +25,10 @@ public class ShowGoldPoint : MonoBehaviour {
     }
 
     public float _fGizmosRadios = 40;
+    public Color _color = Color.yellow;
     void OnDrawGizmos()
     {
+        Gizmos.color = _color;
         Gizmos.DrawSphere(_goldPos[0], _fGizmosRadios);
         Gizmos.DrawSphere(_goldPos[1], _fGizmosRadios);
 

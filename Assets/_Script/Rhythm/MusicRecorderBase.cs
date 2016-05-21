@@ -439,6 +439,15 @@ public class MusicRecorderBaseState_Play : FSMState<MusicRecorderBase, MusicReco
             return entity._strSavePath;// GlobalConst.Path_RecordLoadPath + "/" + GameGlobal.Instance.curScene._strSceneName;
         }
     }
+
+#region _Tools_
+    // 返回下一个节奏点到当前播放时间的时间差
+    // 如果下一个节奏点在后面（即还没播放到），则返回正值
+    public float GetNextIndexToCurTimeInterval()
+    {
+        return entity.RhythmMgr.GetPointByIndex(_nCurCheckIndex) - entity.CurAudio.audioTime;
+    }
+#endregion
 }
 
 public class MusicRecorderBaseState_Stop : FSMState<MusicRecorderBase, MusicRecorderBase.State>

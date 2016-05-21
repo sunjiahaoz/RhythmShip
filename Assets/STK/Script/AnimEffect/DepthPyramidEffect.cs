@@ -24,10 +24,7 @@ namespace sunjiahaoz
         public Vector3 _radioScale = Vector3.one;
         public Vector3 _radioAngle = Vector3.one * 0.8f;
 
-        ScrollEffectCombine[] _sdChildren = null;
-
-        
-
+        ScrollEffectCombine[] _sdChildren = null;        
         void Awake()
         {
             if (_prefabEntity == null)
@@ -38,21 +35,31 @@ namespace sunjiahaoz
             _sdChildren = GetComponentsInChildren<ScrollEffectCombine>();
             if (_bDynamic)
             {
+                _firstChild.gameObject.SetActive(false);
                 for (int i = 0; i < _sdChildren.Length; ++i )
                 {
                     OpenEntity(_sdChildren[i], false);                    
                 }
+                _nOpenedIndex = -1;
             }
         }
 
-        int _nOpenedIndex = 0;
+        int _nOpenedIndex = -1;
         public void Add()
-        {
+        {   
             if (_nOpenedIndex >= _sdChildren.Length)
             {
                 return;
             }
-            OpenEntity(_sdChildren[_nOpenedIndex], true);            
+            // 是否先开第一个
+            if (_nOpenedIndex < 0)
+            {
+                _firstChild.gameObject.SetActive(true);                
+            }
+            else
+            {
+                OpenEntity(_sdChildren[_nOpenedIndex], true);            
+            }
             _nOpenedIndex++;
         }
 

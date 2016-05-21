@@ -20,6 +20,7 @@ public class BulletEleRayBall : BaseBullet {
     public float _fAppearDur = 0.2f;
     public Ease _rayAppearEase = Ease.Linear;
     public RayAppearType _rayAppearType = RayAppearType.H;
+    public FloatRange _rotateRange;
     [Header("消失参数")]
     public float _fDisappearDur = 0.2f;
     public Ease _rayDisappearEase = Ease.Linear;
@@ -48,13 +49,18 @@ public class BulletEleRayBall : BaseBullet {
             // 随机方向
         Vector3 rayDir = RUL.RulVec.RandUnitVector2();
         _ray.gameObject.SetActive(true);
-        _ray.PlayRayAppear(rayDir, _fRayLength, _fRayWidth, _fAppearDur, _rayAppearEase, _rayAppearType);            
+        _ray.PlayRayAppear(rayDir, _fRayLength, _fRayWidth, _fAppearDur, _rayAppearEase, _rayAppearType);
+            // 随机旋转
+        Vector3 vecRandRotate = Vector3.zero;
+        vecRandRotate.z = _rotateRange.RandomValue;
+        transform.DOLocalRotate(vecRandRotate, (_fAppearDur + _fRayDur) / 2).SetLoops(2, LoopType.Yoyo);
         yield return new WaitForSeconds(_fAppearDur + _fRayDur);
         // 展开之后就收缩
         _ray.PlayRayDisappear(_fDisappearDur, _rayDisappearEase, _rayDisappearType);
         transform.DOScale(Vector3.one, _fDisappearDur);
         yield return new WaitForSeconds(_fDisappearDur);
         // 收缩之后就摧毁
-        OnThingDestroy();        
+        OnThingDestroy();
+        transform.eulerAngles = Vector3.zero;
     }
 }

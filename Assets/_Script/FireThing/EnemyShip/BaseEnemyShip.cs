@@ -9,6 +9,7 @@ public class BaseEnemyShip : BaseShip{
     public bool _bAutoGetColliderTriggers = true;
     public ColliderTrigger[] _trigger;
     public int _nHurtValue = 3;
+    public float _fInStayHurtInterval = 0.1f;   // 在OnTriggerStay里触发事件的间隔时间
 
     protected override void Awake()
     {
@@ -62,11 +63,19 @@ public class BaseEnemyShip : BaseShip{
         }
     }
 
+    private float _fCurInStayHurtInterval = 0;
     void OnShipTriggerStay(GameObject go)
     {
+        if (_fCurInStayHurtInterval >= 0)
+        {
+            _fCurInStayHurtInterval -= Time.deltaTime;
+            return;
+        }
+        _fCurInStayHurtInterval = _fInStayHurtInterval;
+
         if (ToolsUseful.CheckLayerContainedGo(_colliderLayer, go))
         {
-            BaseLifeCom life = go.GetComponent<BaseLifeCom>();
+            BaseLifeCom life = go.GetComponent<BaseLifeCom>();            
             if (life != null)
             {
                 life.AddValue(-_nHurtValue);

@@ -945,6 +945,15 @@ namespace sunjiahaoz
                 Debug.Log(i + ":" + lst[i].ToString());
             }
         }
+
+        // 快捷便利
+        public static void TravelList<T>(List<T> list, System.Action<T> actionProcess)
+        {
+            for (int i = 0; i < list.Count; ++i )
+            {
+                actionProcess(list[i]);
+            }
+        }
         #endregion
 
         #region _位相关操作_

@@ -12,7 +12,11 @@ public enum FireThingType
 public class IFirePoint : MonoBehaviour
 {
     public virtual void Fire() { }
-    public virtual Vector3 GetDir() { return Vector3.zero; }
+    public virtual Vector3 GetDir() 
+    {
+        sunjiahaoz.TagLog.LogWarning(LogIndex.FirePoint, "GetDir 获得的是默认的zero!!!", this);
+        return Vector3.zero; 
+    }
 }
 
 public class BaseFireThing : MonoBehaviour

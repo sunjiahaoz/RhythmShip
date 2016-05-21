@@ -21,14 +21,6 @@ public class EnemySimulateFloat : EnemyRhythmRecordShip {
         base.Awake();        
     }
 
-    void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.Home))
-        {
-            OnThingCreate(null);
-        }
-    }
-
     Tweener _twnerMove = null;
     public override void OnThingCreate(IFirePoint fp)
     {
@@ -76,6 +68,10 @@ public class EnemySimulateFloat : EnemyRhythmRecordShip {
     protected override void OnPlayOneShot(int nIndex)
     {
         base.OnPlayOneShot(nIndex);
+        if (_bRecord)
+        {
+            return;
+        }
         if (_nPathIndex >= _path.Length)
         {
             if (_bDestroyWhenEnd)

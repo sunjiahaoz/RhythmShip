@@ -16,7 +16,7 @@ public class EnemyRhythmRecordShip : BaseEnemyShip {
         _record = GetComponent<MusicRecorderBase>();
     }
 
-    void Start()
+    protected virtual void Start()
     {
         if (_bRecord)
         {
@@ -87,6 +87,11 @@ public class EnemyRhythmRecordShip : BaseEnemyShip {
     }
 
 #region _Tools_    
+    // 返回下一个节奏点到当前播放时间的时间差
+    protected float GetNextPointToCurAoTimeInterval()
+    {
+        return _record._statePlay.GetNextIndexToCurTimeInterval();
+    }
     // 获得某个节奏点的时间
     protected float GetRhythmPointTime(int nIndex)
     {

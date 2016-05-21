@@ -70,6 +70,9 @@ namespace sunjiahaoz
         {
             transform.DOKill();
             _cdBody.DOKill();
+            transform.localPosition = Vector3.zero;
+            _cdBody.eulerAngles = Vector3.zero;
+            _fTmpValue = 0;
         }
 
         [HideInInspector]
@@ -88,10 +91,9 @@ namespace sunjiahaoz
                     FloatType_MoveToH(Random.Range(_fMoveToHDurMin, _fMoveToHDurMax), Random.Range(_fMoveToHDistMin, _fMoveToHDistMax));
                 });
                 DOTween.To(value => 
-                {
-                    _fTmpValue = value;
+                {                    
                     vecTmp = transform.position;
-                    vecTmp.x = _fTmpValue;
+                    vecTmp.x = value;
                     transform.position = vecTmp;
                 }, _fTmpValue, _fTmpValue + fDist, fDur).SetAs(param);
         }
