@@ -69,13 +69,13 @@ namespace sunjiahaoz
         }
 
         // TEST CODE
-        void Update()
-        {
-            if (Input.GetKeyUp(KeyCode.Home))
-            {
-                Add();
-            }
-        }
+        //void Update()
+        //{
+        //    if (Input.GetKeyUp(KeyCode.Home))
+        //    {
+        //        Add();
+        //    }
+        //}
 
 #region _动态_虽然支持动态添加什么，但会因为first处在动态中，所以动态添加会有误差存在
         //public int _nOrderOff = 1;

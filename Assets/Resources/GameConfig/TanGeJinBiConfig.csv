@@ -1,0 +1,4 @@
+int,string,string,string,int
+id,title,spriteName,content,type
+标示(比如从0开始，按顺序依次递增）,标题,图片名称,内容,类型(0一般，1没有图片)
+0,Wnd0T,Wnd0S,Wnd0C,0
