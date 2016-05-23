@@ -5,8 +5,8 @@ namespace sunjiahaoz
 {
 
     public class ObjectAnimBase : MonoBehaviour
-    {        
-        public RunOpportunity _opt = RunOpportunity.Start;
+    {
+        public RunOpportunity _opt = RunOpportunity.Start;        
 
         protected virtual void Awake()
         {

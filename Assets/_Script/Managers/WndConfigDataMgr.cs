@@ -9,10 +9,13 @@ public class WndConfigDataMgr : SingletonMonoBehaviour<WndConfigDataMgr>{
     // 当每个都获得一遍之后就重新打乱顺序再来一遍
     List<int> _lstPopKey = new List<int>();
 
+    int _nNextWndIndex = 0;
+
     void Awake()
     {
         TanGeJinBiConfig.load();
         Shuffle();
+        _nNextWndIndex = 0;
     }
 
     
@@ -26,6 +29,12 @@ public class WndConfigDataMgr : SingletonMonoBehaviour<WndConfigDataMgr>{
         int nIndex = _lstPopKey[0];
         _lstPopKey.RemoveAt(0);        
         return TanGeJinBiConfig.dic[nIndex];
+    }
+
+    // 获得下一个窗口ID并使ID+1
+    public int GetNextWndIndex()
+    {
+        return _nNextWndIndex++;
     }
 
     void Shuffle()

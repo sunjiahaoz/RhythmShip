@@ -15,6 +15,9 @@ namespace sunjiahaoz
         public Ease _ease = Ease.Linear;
         public TweenCallback _actionComplete = null;
 
+        [Header("是否会用到Runback,不会用到就设为false")]
+        public bool _bUseRunBack = false;
+
         Tweener _tw = null;
         public Tweener twner
         {
@@ -44,7 +47,7 @@ namespace sunjiahaoz
             {
                 _tw.OnComplete(_actionComplete);
             }
-            _tw.SetAutoKill(false);
+            _tw.SetAutoKill(!_bUseRunBack);
         }
 
         public override void RunBack()
@@ -69,7 +72,14 @@ namespace sunjiahaoz
         [ContextMenu("Goal为当前位置")]
         void SetGoalPos()
         {
-            _endValue = _trTarget.localPosition;
+            if (_trTarget == null)
+            {
+                _endValue = transform.localPosition;
+            }
+            else
+            {
+                _endValue = _trTarget.localPosition;
+            }            
         }
 #endregion
     }
