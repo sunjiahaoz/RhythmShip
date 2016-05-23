@@ -5,10 +5,10 @@ namespace sunjiahaoz
 {
 
     public class ObjectAnimBase : MonoBehaviour
-    {
+    {        
         public RunOpportunity _opt = RunOpportunity.Start;
 
-        void Awake()
+        protected virtual void Awake()
         {
             if (_opt == RunOpportunity.Awake)
             {
@@ -16,7 +16,7 @@ namespace sunjiahaoz
             }
         }
 
-        void Start()
+        protected virtual void Start()
         {
             if (_opt == RunOpportunity.Start)
             {
@@ -24,7 +24,7 @@ namespace sunjiahaoz
             }
         }
 
-        void OnEnable()
+        protected virtual void OnEnable()
         {
             if (_opt == RunOpportunity.Enable)
             {
@@ -33,6 +33,11 @@ namespace sunjiahaoz
         }
 
         public virtual void Run()
+        {
+
+        }
+
+        public virtual void RunBack()
         {
 
         }

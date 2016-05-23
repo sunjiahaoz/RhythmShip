@@ -6,6 +6,7 @@ namespace sunjiahaoz
 {
     public class ObjectAnim_Move : ObjectAnimBase
     {
+        public Transform _trTarget;
         public Vector3 _endValue = Vector3.one;
         public float _fDelay = 0;
         public float _fDur = 1f;
@@ -19,10 +20,19 @@ namespace sunjiahaoz
         {
             get { return _tw; }
         }
+        protected override void Awake()
+        {
+            if (_trTarget == null)
+            {
+                _trTarget = transform;
+            }
+            base.Awake();
+        }
+
         public override void Run()
         {
             base.Run();
-            _tw = transform.DOLocalMove(_endValue, _fDur)
+            _tw = _trTarget.DOLocalMove(_endValue, _fDur)
                 .SetLoops(_nLoopCount, _loopType)
                 .SetEase(_ease);
 
@@ -34,6 +44,16 @@ namespace sunjiahaoz
             {
                 _tw.OnComplete(_actionComplete);
             }
+            _tw.SetAutoKill(false);
+        }
+
+        public override void RunBack()
+        {
+            base.RunBack();
+            if (_tw != null)
+            {
+                _tw.PlayBackwards();
+            }            
         }
 
         public override void Stop(bool bComplete = false)
@@ -49,7 +69,7 @@ namespace sunjiahaoz
         [ContextMenu("Goal为当前位置")]
         void SetGoalPos()
         {
-            _endValue = transform.localPosition;
+            _endValue = _trTarget.localPosition;
         }
 #endregion
     }

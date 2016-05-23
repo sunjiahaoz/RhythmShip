@@ -11,6 +11,11 @@ public class EnemyShip_BaseWnd : BaseEnemyShip {
     public override void OnThingCreate(IFirePoint fp)
     {
         base.OnThingCreate(fp);
+        InitContent();
+    }
+
+    protected virtual void InitContent()
+    {
         TanGeJinBiConfig config = WndConfigDataMgr.Instance.GetRandomWndConfig();
         _textTitle.text = Localization.Get(config.title);
         _textContent.text = Localization.Get(config.content);
@@ -25,5 +30,4 @@ public class EnemyShip_BaseWnd : BaseEnemyShip {
             _spImage.gameObject.SetActive(false);
         }
     }
-
 }
