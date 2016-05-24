@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿/*
+OAElem_ScrollItem
+By: @sunjiahaoz, 2016-5-24
+
+ScrollItem.transfom.position本身作为起始点，
+ * 同时指定一个最后点LastPos
+*/
+using UnityEngine;
 using System.Collections;
 
 public class OAElem_ScrollItem : MonoBehaviour {

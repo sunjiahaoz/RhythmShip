@@ -18,11 +18,11 @@ namespace sunjiahaoz
 
         protected override void Awake()
         {
-            base.Awake();
             if (_trTarget == null)
             {
                 _trTarget = transform;
             }
+            base.Awake();            
         }
 
         Tweener _tw = null;

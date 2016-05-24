@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿/*
+ObjectAnim_Scroll
+By: @sunjiahaoz, 2016-5-24
+
+卷轴效果，当ScrollItem到达GoalPos的时候自动移动到队列的最后位置
+*/
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
