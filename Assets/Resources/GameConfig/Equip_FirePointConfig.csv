@@ -5,3 +5,4 @@ id,prefabName
 1,FirePoint_Angle
 2,ShootMootor_CircleChiLun
 3,ShootMootor_ManyGuns
+4,ShootMootor_Cursor

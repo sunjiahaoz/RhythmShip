@@ -80,5 +80,7 @@ public class GloabalSet : MonoBehaviour {
     public static string LayerName_Item = "Item";
 
     public static string SceneName_Battle = "first";
+
+    public static string Tag_Ball = "Ball";
 }
 

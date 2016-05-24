@@ -7,17 +7,12 @@ using RUL;
 using DG.Tweening;
 
 public class TEST : MonoBehaviour {
-    public CameraShake _shake;
-
-    float _fTmpValue = 0;
+    public BaseEnemyShip _ball;
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.Home))
         {
-            DOTween.To(_fTmpValue =>
-            {
-
-            }, 0, 100, 2f);
+            _ball.OnThingCreate(null);
         }
         if (Input.GetKey(KeyCode.End))
         {
