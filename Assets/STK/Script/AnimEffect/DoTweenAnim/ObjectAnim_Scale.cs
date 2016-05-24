@@ -5,6 +5,7 @@ namespace sunjiahaoz
 {
     public class ObjectAnim_Scale : ObjectAnimBase
     {
+        public Transform _trTarget;
         public Vector3 _startValue = Vector3.one;
         public Vector3 _endValue = Vector3.one;
         public float _fDelay = 0;
@@ -12,14 +13,24 @@ namespace sunjiahaoz
         public int _nLoopCount = 1;
         public LoopType _loopType = LoopType.Restart;
         public Ease _ease = Ease.Linear;
+        public bool _bNeedRunBack = false;
         public TweenCallback _actionComplete = null;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            if (_trTarget == null)
+            {
+                _trTarget = transform;
+            }
+        }
 
         Tweener _tw = null;
         public override void Run()
         {
-            transform.localScale = _startValue;
+            _trTarget.localScale = _startValue;
 
-            _tw = transform.DOScale(_endValue, _fDur)
+            _tw = _trTarget.DOScale(_endValue, _fDur)
                 .SetLoops(_nLoopCount, _loopType)
                 .SetEase(_ease);
 
@@ -30,6 +41,19 @@ namespace sunjiahaoz
             if (_actionComplete != null)
             {
                 _tw.OnComplete(_actionComplete);
+            }
+            if (_bNeedRunBack)
+            {
+                _tw.SetAutoKill(false);
+            }
+        }
+
+        public override void RunBack()
+        {
+            base.RunBack();
+            if (_tw != null)
+            {
+                _tw.PlayBackwards();
             }
         }
 

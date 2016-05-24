@@ -46,7 +46,7 @@ namespace sunjiahaoz
                     _lstItems[i].transform.Translate(_dir * Time.deltaTime * _fSpeed);
                 }
 
-                if (_lstItems[0].CheckGoal(_trGoalPos.position))
+                if (_lstItems[0].CheckGoal(_trGoalPos.position, _fGoalRadius))
                 {
                     RemoveHeadItem();
                 }
