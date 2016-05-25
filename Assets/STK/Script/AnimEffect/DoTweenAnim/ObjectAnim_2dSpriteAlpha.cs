@@ -57,5 +57,22 @@ namespace sunjiahaoz
                 _twner.Kill(bComplete);
             }
         }
+
+        [ContextMenu("当前Alpha为Start")]
+        void SetCurIsStart()
+        {
+            if (_sprite != null)
+            {
+                _fAlphaStart = _sprite.color.a;
+            }
+        }
+        [ContextMenu("当前Alpha为Target")]
+        void SetCurIsTarget()
+        {
+            if (_sprite != null)
+            {
+                _fAlphaTarget = _sprite.color.a;
+            }
+        }
     }
 }
