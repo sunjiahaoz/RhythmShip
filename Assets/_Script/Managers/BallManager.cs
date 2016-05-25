@@ -10,15 +10,6 @@ public class BallManager : SingletonMonoBehaviour<BallManager> {
     public float _fAddLeftOrRightForceMin = 150;
     public float _fAddRightOrRightForceMax = 300;
 
-    //void GenerateForce()
-    //{
-    //    //float fAddOff = Mathf.Min(1, 4) * 25;
-    //    //_fAddUpForceMin += fAddOff;
-    //    //_fAddUpForceMax += fAddOff;
-    //    //_fAddLeftOrRightForceMin += fAddOff;
-    //    //_fAddRightOrRightForceMax += fAddOff;
-    //}
-
     public float GetRandomUpForce()
     {
         return Random.Range(_fAddUpForceMin, _fAddUpForceMax);
