@@ -7,12 +7,12 @@ using RUL;
 using DG.Tweening;
 
 public class TEST : MonoBehaviour {
-    public BaseEnemyShip _ball;
+    public DynamicTable _table;
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.Home))
         {
-            _ball.OnThingCreate(null);
+            _table.AddForce();
         }
         if (Input.GetKey(KeyCode.End))
         {

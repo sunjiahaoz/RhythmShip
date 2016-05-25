@@ -4,32 +4,38 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 
 public class BallManager : SingletonMonoBehaviour<BallManager> {
+
+    public PicContainer[] _picContainers;
+
 #region _Event_
     [System.Serializable]
     public class OnBallDestroyEvent : UnityEvent<Enemy_BallBase> { }
+    [System.Serializable]
+    public class OnPicContainerFinish : UnityEvent { }
     [SerializeField]
     public OnBallDestroyEvent _OnBallDestroyEvent;
-
-    //public class BallManagerEvent
-    //{
-    //    public delegate void OnBallDestroy(Enemy_BallBase ball);
-    //    public event OnBallDestroy _eventOnBallDestroy;
-    //    public void OnballDestroyEvent(Enemy_BallBase ball)
-    //    {
-    //        if (_eventOnBallDestroy != null)
-    //        {
-    //            _eventOnBallDestroy(ball);
-    //        }
-    //    }
-    //}
-    //public BallManagerEvent _event = new BallManagerEvent();
+    [SerializeField]
+    public OnPicContainerFinish _OnPicContainerFinish;
 #endregion
-    // 用于标记每个球，相当于球的唯一ID
-    static int _nBallIndex = 0;
-    public static int GetNextBallIndex()
+    int _nCurPicContainerIndex = 0;
+
+    void Start()
     {
-        return _nBallIndex++;
+        _nCurPicContainerIndex = -1;
+        PlayNextContainers();
     }
+
+    public void PlayNextContainers()
+    {        
+        _nCurPicContainerIndex++;
+        if (_nCurPicContainerIndex >= _picContainers.Length)
+        {
+            _nCurPicContainerIndex = 0;
+        }
+        _picContainers[_nCurPicContainerIndex].gameObject.SetActive(true);
+        _picContainers[_nCurPicContainerIndex].PicContainerStart();        
+    }
+
 
     //// 球分裂后的速度力
     public float _fAddUpForceMin = 200;
