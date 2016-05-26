@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class BallManager : SingletonMonoBehaviour<BallManager> {
 
+    public BeatDetect _beatDetected;
     public PicContainer[] _picContainers;
 
 #region _Event_

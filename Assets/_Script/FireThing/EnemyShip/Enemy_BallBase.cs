@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Enemy_BallBase : BaseEnemyShip {
+public class Enemy_BallBase : BaseBeatDetectedShip
+{
     public bool _bSmallest = false;
 
     com_AddForce _comAddForce;

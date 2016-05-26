@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DynamicTable : MonoBehaviour {
+public class DynamicTable : MonoBehaviour {   
     public Transform _trBody;
     public Transform _trMaxPos;    
     public float _fExpandSmoothSpeed;    
