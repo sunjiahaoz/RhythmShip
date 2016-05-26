@@ -13,6 +13,7 @@ public class PlayerShipSkillMotor : MonoBehaviour
 
     public void EquipSkillMotor(int nID)
     {
+        UnEquipSkill();
         TagLog.Log(LogIndex.Ship, "装备技能ID：" + nID);
         GamingData.Instance.playerEquipedSkillMgr.CreateSkill(nID, (skill) =>
         {
@@ -22,5 +23,14 @@ public class PlayerShipSkillMotor : MonoBehaviour
             _skill.transform.localPosition = Vector3.zero;
             _skill.transform.localScale = Vector3.one;
         });
+    }
+
+    void UnEquipSkill()
+    {
+        if (_skill != null)
+        {
+            GameObject.Destroy(_skill.gameObject);
+            _skill = null;
+        }        
     }
 }

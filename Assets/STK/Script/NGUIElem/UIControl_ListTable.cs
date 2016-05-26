@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 #if _USENGUI_
-namespace sunjiahaoz.NGUIElem
+namespace sunjiahaoz
 {
     [RequireComponent(typeof(UITable))]
     public class UIControl_ListTable : MonoBehaviour

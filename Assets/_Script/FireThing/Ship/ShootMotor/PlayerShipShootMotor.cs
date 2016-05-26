@@ -15,6 +15,7 @@ public class PlayerShipShootMotor : MonoBehaviour
 
     public void EquipFirePoint(int nFirePointID)
     {
+        UnEquipFirePoint();
         TagLog.Log(LogIndex.Ship, "装备射击ID：" + nFirePointID);
         GamingData.Instance.playerEquipedFirePointMgr.CreateFirePoint(nFirePointID, (fp) => 
         {
@@ -26,17 +27,40 @@ public class PlayerShipShootMotor : MonoBehaviour
         });
     }
 
+    void UnEquipFirePoint()
+    {
+        if(_firePoint != null)
+        {
+            GameObject.Destroy(_firePoint.gameObject);
+            _firePoint = null;
+        }
+    }
+
+    bool _bIsFiring = false;
     protected virtual void Update()
     {
         if (Input.GetMouseButton(0))
+        {
+            _bIsFiring = true;            
+        }
+        else
+        {
+            _bIsFiring = false;
+        }
+        Update_Fire();
+    }
+
+    void Update_Fire()
+    {
+        if (_bIsFiring)
         {
             if (_cdNorShoot.IsFinished)
             {
                 _firePoint.Fire();
                 _cdNorShoot.StartCooldown(_nNorShootInterval);
             }
-        }
 
-        _cdNorShoot.Update(Time.time);
+            _cdNorShoot.Update(Time.time);
+        }
     }
 }

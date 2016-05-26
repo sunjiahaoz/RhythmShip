@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 #if _USENGUI_
-namespace sunjiahaoz.NGUIElem
+namespace sunjiahaoz
 {
     /// <summary>
     /// 加点按钮的简单实现。就是按住按钮，每隔一段时间就触发一次事件。

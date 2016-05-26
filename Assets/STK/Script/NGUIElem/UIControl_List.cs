@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 #if _USENGUI_
-namespace sunjiahaoz.NGUIElem
+namespace sunjiahaoz
 {
     [RequireComponent(typeof(UIGrid))]
     public class UIControl_List : MonoBehaviour

@@ -7,16 +7,17 @@ using RUL;
 using DG.Tweening;
 
 public class TEST : MonoBehaviour {
-    public DynamicTable _table;
+
+    public PlayerShip _ship;
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.Home))
-        {
-            _table.AddForce();
+        {            
+            _ship._skill.EquipSkillMotor(1);
         }
         if (Input.GetKey(KeyCode.End))
-        {
-            
+        {            
+            _ship._shooter.EquipFirePoint(0);
         }
         
     }

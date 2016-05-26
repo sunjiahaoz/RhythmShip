@@ -2,7 +2,7 @@
 using System.Collections;
 
 #if _USENGUI_
-namespace sunjiahaoz.NGUIElem
+namespace sunjiahaoz
 {
 
     public enum CdFillType
