@@ -15,4 +15,17 @@ public class Elem_ShootSelect : MonoBehaviour {
             shootItem.Init(item.Key);
         }
     }
+
+    public void InitWithIds(params int[] ids)
+    {
+        _lst.ResetContent();
+        for (int i = 0; i < ids.Length; ++i )
+        {
+            if (Equip_FirePointConfig.dic.ContainsKey(ids[i]))
+            {
+                Elem_ShootItem shootItem = _lst.CreateAndAddItem(_prefabItem) as Elem_ShootItem;
+                shootItem.Init(ids[i]);
+            }
+        }
+    }
 }

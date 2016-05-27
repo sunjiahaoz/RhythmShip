@@ -15,4 +15,17 @@ public class Elem_SkillSelect : MonoBehaviour {
             shootItem.Init(item.Key);
         }
     }
+
+    public void InitWithIds(params int[] ids)
+    {
+        _lst.ResetContent();
+        for (int i = 0; i < ids.Length; ++i)
+        {
+            if (Equip_SkillConfig.dic.ContainsKey(ids[i]))
+            {
+                Elem_SkillItem shootItem = _lst.CreateAndAddItem(_prefabItem) as Elem_SkillItem;
+                shootItem.Init(ids[i]);
+            }
+        }
+    }
 }
