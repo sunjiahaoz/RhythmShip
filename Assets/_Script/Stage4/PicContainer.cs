@@ -20,12 +20,9 @@ public class PicContainer : MonoBehaviour {
         BallManager.Instance._OnBallDestroyEvent.AddListener(_eventOnBallDestroy);
     }
 
-    void OnDestroy()
+    public void OnPicContainerEnd()
     {
-        if (!BallManager.DoesInstanceExist())
-        {
-            BallManager.Instance._OnBallDestroyEvent.RemoveListener(_eventOnBallDestroy);
-        }        
+        BallManager.Instance._OnBallDestroyEvent.RemoveListener(_eventOnBallDestroy);
     }
 
     void _eventOnBallDestroy(Enemy_BallBase ball)
